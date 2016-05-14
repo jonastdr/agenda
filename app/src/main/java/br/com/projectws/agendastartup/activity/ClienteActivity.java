@@ -39,10 +39,13 @@ public class ClienteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("mensagem", "minha mensagem..........");
+
+                String mensagem = "Olá " + cliente.getNome() + ", sou 'VENDEDOR' da loja 'LOJA'...";
+
+                ClipData clip = ClipData.newPlainText("mensagem", mensagem);
                 clipboard.setPrimaryClip(clip);
 
-                Uri uri = Uri.parse("smsto:" + "+554299603082");
+                Uri uri = Uri.parse("smsto:" + "+55" + cliente.getTelefone());
 
                 Intent i = new Intent(Intent.ACTION_SENDTO, uri);
 
