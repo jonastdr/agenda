@@ -7,14 +7,6 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context=".activity.HomeActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:layout_below="@+id/button"
-        android:layout_alignParentEnd="true"/>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,6 +14,15 @@
         android:id="@+id/novaBtn"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/novaBtn"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"/>
 
 
 </RelativeLayout>
