@@ -1,4 +1,4 @@
-package br.com.projectws.agendastartup;
+package br.com.projectws.agendastartup.activity;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import br.com.projectws.agendastartup.R;
 
 public class HomeActivity extends AppCompatActivity {
 
