@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="br.com.projectws.agendastartup.activity.cadastroActivity">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Nome"
+        android:ems="10"
+        android:id="@+id/nomeEditText"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/telefoneEditText"
+        android:layout_below="@+id/nomeEditText"
+        android:layout_alignParentStart="true"
+        android:text="Telefone"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Preferencia"
+        android:id="@+id/preferenciaTextView"
+        android:layout_below="@+id/telefoneEditText"
+        android:layout_centerHorizontal="true"/>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WhatsApp"
+        android:id="@+id/whatsRadioButton"
+        android:checked="false"
+        android:layout_below="@+id/preferenciaTextView"
+        android:layout_toStartOf="@+id/preferenciaTextView"/>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ligação"
+        android:id="@+id/callRadioButton"
+        android:checked="false"
+        android:layout_below="@+id/preferenciaTextView"
+        android:layout_toEndOf="@+id/preferenciaTextView"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Salvar"
+        android:id="@+id/salvarButton"
+        android:layout_below="@+id/whatsRadioButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="119dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:id="@+id/cancelarButton"
+        android:layout_alignTop="@+id/salvarButton"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

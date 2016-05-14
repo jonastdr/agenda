@@ -20,8 +20,7 @@
         </activity>
         <activity android:name=".activity.ClienteActivity" />
         <activity android:name=".activity.MensagemActivity" />
-        <activity android:name=".activity.MensagemCadastroActivity" />
-        <activity android:name=".activity.EnvioActivity"></activity>
+        <activity android:name=".activity.MensagemCadastroActivity"></activity>
     </application>
 
 </manifest>

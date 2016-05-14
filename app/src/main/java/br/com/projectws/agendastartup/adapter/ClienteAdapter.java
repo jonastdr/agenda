@@ -28,7 +28,7 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.MyViewHo
     }
 
 
-    public ClienteAdapter(List<Cliente> peoplesList) {
+    public ClienteAdapter(List<Cliente> clientesList) {
         this.clientesList = clientesList;
     }
 
