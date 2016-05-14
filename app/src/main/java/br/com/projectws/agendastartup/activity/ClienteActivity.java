@@ -42,7 +42,7 @@ public class ClienteActivity extends AppCompatActivity {
                 ClipData clip = ClipData.newPlainText("mensagem", "minha mensagem..........");
                 clipboard.setPrimaryClip(clip);
 
-                Uri uri = Uri.parse("smsto:" + "+554299603082");
+                Uri uri = Uri.parse("smsto:" + "+55" + cliente.getTelefone());
 
                 Intent i = new Intent(Intent.ACTION_SENDTO, uri);
 
