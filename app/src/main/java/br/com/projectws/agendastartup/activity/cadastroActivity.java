@@ -2,6 +2,7 @@ package br.com.projectws.agendastartup.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -26,6 +27,18 @@ public class cadastroActivity extends AppCompatActivity {
         salvar = (Button) findViewById(R.id.salvarButton);
         cancelar = (Button) findViewById(R.id.cancelarButton);
 
-//        cancelar.setOnClickListener();
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        salvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
