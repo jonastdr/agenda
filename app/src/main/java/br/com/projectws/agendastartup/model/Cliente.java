@@ -4,8 +4,7 @@ package br.com.projectws.agendastartup.model;
  * Created by jonas on 14/05/16.
  */
 public class Cliente {
-    private String nome;
-    private String telefone, tags;
+    private String nome, telefone, tags;
 
     public Cliente() {}
 
