@@ -22,7 +22,9 @@ public class MensagemActivity extends AppCompatActivity {
         novaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Activity cadastro = new MensagemCadastroActivity();
+                Intent intent = new Intent(MensagemActivity.this, MensagemCadastroActivity.class);
+
+                startActivity(intent);
             }
         });
     }

@@ -38,19 +38,12 @@
         android:id="@+id/cliente_telefone"
         android:layout_below="@+id/textView2" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Perfil"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/cliente_telefone"
-        android:layout_marginTop="10dp"/>
-
-    <ListView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/textView3"
+        android:text="Enviar Mensagem"
+        android:id="@+id/enviarBtn"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
 
