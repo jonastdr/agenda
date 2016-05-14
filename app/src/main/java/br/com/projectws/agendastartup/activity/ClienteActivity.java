@@ -8,15 +8,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import br.com.projectws.agendastartup.R;
+import br.com.projectws.agendastartup.model.Cliente;
 
 public class ClienteActivity extends AppCompatActivity {
+
+    TextView nome, telefone;
+
+    Cliente cliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cliente);
+
+        nome = (TextView) findViewById(R.id.nomeTextView);
+        telefone = (TextView) findViewById(R.id.telefoneTextView);
+
+        cliente = getIntent().getParcelableExtra("cliente");
+
+        nome.setText(cliente.getNome());
+        telefone.setText(cliente.getTelefone());
 
         Button enviarBtn = (Button) findViewById(R.id.enviarBtn);
 

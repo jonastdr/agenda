@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="______"
-        android:id="@+id/cliente_nome"
+        android:id="@+id/nomeTextView"
         android:layout_below="@+id/textView" />
 
     <TextView
@@ -28,14 +28,14 @@
         android:layout_height="wrap_content"
         android:text="Telefone"
         android:id="@+id/textView2"
-        android:layout_below="@+id/cliente_nome"/>
+        android:layout_below="@+id/nomeTextView"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="______"
-        android:id="@+id/cliente_telefone"
+        android:id="@+id/telefoneTextView"
         android:layout_below="@+id/textView2" />
 
     <Button
