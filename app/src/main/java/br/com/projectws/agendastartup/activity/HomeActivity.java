@@ -73,6 +73,11 @@ public class HomeActivity extends AppCompatActivity {
         cliente = new Cliente("Maria", "4299999999");
         clienteList.add(cliente);
 
+        cliente = new Cliente("Guilhermino", "4298424923");
+        clienteList.add(cliente);
+
+        cliente = new Cliente("Jonas", "4299603082");
+        clienteList.add(cliente);
 
         mAdapter.notifyDataSetChanged();
     }
