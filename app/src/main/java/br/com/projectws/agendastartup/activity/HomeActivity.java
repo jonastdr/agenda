@@ -22,6 +22,7 @@ import br.com.projectws.agendastartup.model.Cliente;
 import br.com.projectws.agendastartup.utils.DividerItemDecoration;
 
 public class HomeActivity extends AppCompatActivity {
+    private static final int REQUEST_CADASTRO = 200;
     private Button cadastrar;
     private List<Cliente> clienteList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -40,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, CadastroActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CADASTRO);
             }
         });
 
@@ -78,19 +79,38 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void prepareCliente() {
-        Cliente cliente = new Cliente("Luiza", "4288888888");
+        Cliente cliente = new Cliente("Luiza", "4288888888", "sapato, blusa, tricole");
         clienteList.add(cliente);
 
-        cliente = new Cliente("Maria", "4299999999");
+        cliente = new Cliente("Maria", "4299999999" , "sapato, blusa, tricole");
         clienteList.add(cliente);
 
-        cliente = new Cliente("Guilhermino", "4298424923");
+        cliente = new Cliente("Guilhermino", "4298424923" , "sapato, blusa, tricole");
         clienteList.add(cliente);
 
-        cliente = new Cliente("Jonas", "4299603082");
+        cliente = new Cliente("Jonas", "4299603082" , "sapato, blusa, tricole");
         clienteList.add(cliente);
 
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CADASTRO) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    Cliente cliente = new Cliente(data.getStringExtra("nome"),
+                            data.getStringExtra("telefone"), data.getStringExtra("interesses"));
+                    clienteList.add(cliente);
+                    mAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+
     }
 
 
