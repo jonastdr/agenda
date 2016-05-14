@@ -16,6 +16,12 @@ public class Cliente implements Parcelable {
         this.telefone = telefone;
     }
 
+    public Cliente(String nome, String telefone, String tags) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.tags = tags;
+    }
+
     public String getNome() {
         return nome;
     }

@@ -19,11 +19,13 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.MyViewHo
     private List<Cliente> clientesList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nome;
+        public TextView nome, telefone, tags;
 
         public MyViewHolder(View view) {
             super(view);
             nome = (TextView) view.findViewById(R.id.nome);
+            telefone = (TextView) view.findViewById(R.id.data);
+            tags = (TextView) view.findViewById(R.id.tags);
         }
     }
 
@@ -44,6 +46,7 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Cliente cliente = clientesList.get(position);
         holder.nome.setText(cliente.getNome());
+        holder.tags.setText(cliente.getTags());
     }
 
     @Override
