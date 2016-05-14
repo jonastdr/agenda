@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cadastrar Cliente"
-        android:id="@+id/novaBtn"
+        android:id="@+id/cadastrarButton"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:layout_below="@+id/novaBtn"
+        android:layout_below="@+id/cadastrarButton"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"/>
 

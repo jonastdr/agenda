@@ -5,15 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 
 import br.com.projectws.agendastartup.R;
 
-public class cadastroActivity extends AppCompatActivity {
+public class CadastroActivity extends AppCompatActivity {
     private String url = "login";
-    private EditText nome, telefone;
+    private EditText nome, telefone, interesses;
     private Button salvar, cancelar;
-    private RadioButton whats, call;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +20,7 @@ public class cadastroActivity extends AppCompatActivity {
 
         nome = (EditText) findViewById(R.id.nomeEditText);
         telefone = (EditText) findViewById(R.id.telefoneEditText);
-        whats = (RadioButton) findViewById(R.id.whatsRadioButton);
-        cancelar = (RadioButton) findViewById(R.id.callRadioButton);
+        interesses = (EditText) findViewById(R.id.interreseEditText);
         salvar = (Button) findViewById(R.id.salvarButton);
         cancelar = (Button) findViewById(R.id.cancelarButton);
 

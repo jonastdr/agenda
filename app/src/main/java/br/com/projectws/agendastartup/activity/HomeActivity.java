@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import br.com.projectws.agendastartup.model.Cliente;
 import br.com.projectws.agendastartup.utils.DividerItemDecoration;
 
 public class HomeActivity extends AppCompatActivity {
+    private Button cadastrar;
     private List<Cliente> clienteList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ClienteAdapter mAdapter;
@@ -32,6 +34,15 @@ public class HomeActivity extends AppCompatActivity {
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+
+        cadastrar = (Button) findViewById(R.id.cadastrarButton);
+        cadastrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, CadastroActivity.class);
+                startActivity(intent);
+            }
+        });
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 

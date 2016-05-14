@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="br.com.projectws.agendastartup.activity.cadastroActivity">
+    tools:context=".activity.CadastroActivity">
 
     <EditText
         android:layout_width="wrap_content"
@@ -34,35 +34,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Preferencia"
+        android:text="Interesses"
         android:id="@+id/preferenciaTextView"
         android:layout_below="@+id/telefoneEditText"
         android:layout_centerHorizontal="true"/>
 
-    <RadioButton
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WhatsApp"
-        android:id="@+id/whatsRadioButton"
-        android:checked="false"
+        android:id="@+id/interreseEditText"
         android:layout_below="@+id/preferenciaTextView"
-        android:layout_toStartOf="@+id/preferenciaTextView"/>
+        android:layout_marginTop="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"/>
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ligação"
-        android:id="@+id/callRadioButton"
-        android:checked="false"
-        android:layout_below="@+id/preferenciaTextView"
-        android:layout_toEndOf="@+id/preferenciaTextView"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Salvar"
         android:id="@+id/salvarButton"
-        android:layout_below="@+id/whatsRadioButton"
+        android:layout_below="@+id/preferenciaTextView"
         android:layout_alignParentStart="true"
         android:layout_marginTop="119dp"/>
 
