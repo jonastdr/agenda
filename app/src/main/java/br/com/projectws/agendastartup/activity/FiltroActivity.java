@@ -163,7 +163,7 @@ public class FiltroActivity extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getContext(), "Erro de Conexão", Toast.LENGTH_SHORT);
+                                Toast.makeText(getContext(), "Erro de Conexão", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -197,7 +197,6 @@ public class FiltroActivity extends Fragment {
             }
 
         }
-
 
     }
 

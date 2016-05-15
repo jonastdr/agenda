@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +43,7 @@ public class MensagemActivity extends Fragment {
     protected RecyclerView recyclerView;
     protected MensagemAdapter mAdapter;
     private Mensagem mensagem;
+    private AlertDialog alert;
     
     public MensagemActivity() {}
 
@@ -62,7 +64,6 @@ public class MensagemActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MensagemCadastroActivity.class);
-
                 startActivity(intent);
             }
         });
@@ -81,11 +82,11 @@ public class MensagemActivity extends Fragment {
             public void onClick(View view, int position) {
                 Mensagem mensagem = mensagemList.get(position);
                 try {
-                    Intent intent = new Intent(getActivity(), MensagemCadastroActivity.class);
-                    Bundle mbundle = new Bundle();
-                    mbundle.putParcelable("mensagem", mensagem);
-                    intent.putExtras(mbundle);
-                    startActivity(intent);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle(mensagem.getTitulo());
+                    builder.setMessage(mensagem.getMensagem());
+                    alert = builder.create();
+                    alert.show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -97,10 +98,12 @@ public class MensagemActivity extends Fragment {
             }
         }));
 
-        try {
-            prepare();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (mensagemList.isEmpty()) {
+            try {
+                prepare();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return rootView;
