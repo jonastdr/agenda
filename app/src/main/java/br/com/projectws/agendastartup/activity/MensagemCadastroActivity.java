@@ -1,5 +1,6 @@
 package br.com.projectws.agendastartup.activity;
 
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.model.Cliente;
+import br.com.projectws.agendastartup.model.Mensagem;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -27,7 +29,7 @@ public class MensagemCadastroActivity extends AppCompatActivity {
 
     private Button enviarButton, cancelarButton;
 
-    private EditText titulo, mensagem;
+    private EditText tituloEditText, mensagemEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +39,8 @@ public class MensagemCadastroActivity extends AppCompatActivity {
         enviarButton = (Button) findViewById(R.id.enviarButton);
         cancelarButton = (Button) findViewById(R.id.cancelarButton);
 
-        titulo = (EditText) findViewById(R.id.tituloEditText);
-        mensagem = (EditText) findViewById(R.id.mensagemEditText);
+        tituloEditText = (EditText) findViewById(R.id.tituloEditText);
+        mensagemEditText = (EditText) findViewById(R.id.mensagemEditText);
 
         enviarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,12 +63,19 @@ public class MensagemCadastroActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Mensagem mensagem = getIntent().getParcelableExtra("mensagem");
+
+        if(mensagem != null) {
+            tituloEditText.setText(mensagem.getTitulo());
+            mensagemEditText.setText(mensagem.getMensagem());
+        }
     }
 
     public void run() throws Exception {
         RequestBody requestBody = new FormBody.Builder()
-                .add("titulo", titulo.getText().toString())
-                .add("mensagem", mensagem.getText().toString())
+                .add("titulo", tituloEditText.getText().toString())
+                .add("mensagem", mensagemEditText.getText().toString())
                 .build();
 
         Request request = new Request.Builder()

@@ -19,6 +19,7 @@
         <item name="android:paddingRight">32dp</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
 
     <style name="cancel_button">
@@ -28,6 +29,7 @@
         <item name="android:paddingRight">32dp</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
 
     <style name="input">
