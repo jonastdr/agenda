@@ -9,6 +9,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="br.com.projectws.agendastartup.activity.ClienteActivity">
 
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/shape_thumbnail"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +26,8 @@
         android:layout_margin="20dp"
         android:textSize="32dp"
         android:textColor="@color/colorTitle"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:layout_below="@id/imageView" />
 
     <TextView
         android:layout_width="match_parent"
@@ -38,7 +47,7 @@
         android:text="Interesses"
         android:id="@+id/textView"
         android:layout_below="@+id/telefoneTextView"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="10dp"
         android:layout_alignEnd="@+id/telefoneTextView"
         android:layout_alignParentStart="true"
         android:textAlignment="center" />

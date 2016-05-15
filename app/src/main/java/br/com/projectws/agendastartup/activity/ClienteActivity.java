@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.shapes.Shape;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.model.Cliente;
+import br.com.projectws.agendastartup.utils.TagDecoration;
 
 public class ClienteActivity extends AppCompatActivity {
 
@@ -69,14 +71,11 @@ public class ClienteActivity extends AppCompatActivity {
         TableRow interesseTableRow = new TableRow(this);
 
         for(int i = 1; i <= 3; i++) {
-            Button interesseTile = new Button(this);
+            TextView interesseTag = new TagDecoration(this);
 
-            interesseTile.setBackground(getDrawable(R.drawable.shape_interesse));
-            interesseTile.setText("interesse " + i);
-            interesseTile.setTextColor(Color.WHITE);
-            interesseTile.setEnabled(false);
+            interesseTag.setText("interesse " + i);
 
-            interesseTableRow.addView(interesseTile);
+            interesseTableRow.addView(interesseTag);
         }
 
         interessesTableLayout.addView(interesseTableRow);
