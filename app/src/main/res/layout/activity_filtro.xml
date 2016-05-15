@@ -13,7 +13,7 @@
         android:id="@+id/searchView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:paddingEnd="0dp" />
+        style="@style/search"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
