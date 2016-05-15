@@ -51,4 +51,8 @@
     <style name="TextViewStyle" parent="android:Widget.TextView">
         <item name="android:layout_margin">5dp</item>
     </style>
+
+    <style name="search">
+        <item name="android:background">@drawable/shape_search</item>
+    </style>
 </resources>
