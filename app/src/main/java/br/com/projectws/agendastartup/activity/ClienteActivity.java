@@ -41,6 +41,8 @@ public class ClienteActivity extends AppCompatActivity {
     private AlertDialog alert;
     TableLayout interessesTableLayout;
 
+    private Button alterarButton;
+
     Cliente cliente;
 
     @Override
@@ -66,6 +68,17 @@ public class ClienteActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        alterarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ClienteActivity.this, ClienteActivity.class);
+                Bundle mbundle = new Bundle();
+                mbundle.putParcelable("cliente", cliente);
+                intent.putExtras(mbundle);
+                startActivity(intent);
             }
         });
     }
