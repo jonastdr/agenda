@@ -13,9 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.projectws.agendastartup.R;
-import br.com.projectws.agendastartup.adapter.ClienteAdapter;
-import br.com.projectws.agendastartup.model.Cliente;
-import br.com.projectws.agendastartup.model.Mensagem;
 import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,11 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    protected List<Cliente> clienteList = new ArrayList<>();
-    protected List<Mensagem> mensagemList = new ArrayList<>();
-    private Cliente cliente;
-    private Mensagem mensagem;
-    protected ClienteAdapter mAdapter;
 
 
     @Override
@@ -46,10 +38,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-    }
-
-    public List<Cliente> lista() {
-        return clienteList;
     }
 
     private void setupViewPager(ViewPager viewPager) {
