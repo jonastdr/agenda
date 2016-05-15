@@ -72,19 +72,21 @@ public class ClienteActivity extends AppCompatActivity {
     private void setView() {
         cliente = getIntent().getParcelableExtra("cliente");
 
+        String[] tags = cliente.getTags().split(" ");
+
         nome.setText(cliente.getNome());
-        telefone.setText(cliente.getTelefone());
+        telefone.setText(cliente.getTelefone().substring(2, cliente.getTelefone().length()));
         telefone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
         TableRow interesseTableRow = new TableRow(this);
 
-        for(int i = 1; i <= 3; i++) {
+        for(String tag: tags) {
             TextView interesseTag = new TextView(this);
 
             interesseTag.setBackgroundResource(R.drawable.shape_tag);
             interesseTag.setPadding(15,15,15,15);
             interesseTag.setTextColor(Color.WHITE);
-            interesseTag.setText("interesse " + i);
+            interesseTag.setText(tag);
 
             interesseTableRow.addView(interesseTag);
         }
@@ -92,7 +94,7 @@ public class ClienteActivity extends AppCompatActivity {
         interessesTableLayout.addView(interesseTableRow);
     }
 
-    private void sendWhatsapp() throws Exception {
+    private void sendWhatsapp() {
 
         RequestBody requestBody = new FormBody.Builder()
                 .add("message", "mensagem de texto...")
@@ -100,7 +102,7 @@ public class ClienteActivity extends AppCompatActivity {
                 .build();
 
         Request request = new Request.Builder()
-                .url("http://192.168.0.15:8000")
+                .url("http://192.168.0.15:8000/api/v1/message/send")
                 .post(requestBody)
                 .build();
 
@@ -113,20 +115,35 @@ public class ClienteActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                JSONObject jsonResponse = null;
                 try {
-                    jsonResponse = new JSONObject(response.body().string());
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
 
                     System.out.println(jsonResponse);
 
                     String status = jsonResponse.getString("status");
-                    if (new String("success").equals(status)) {
-                        Toast.makeText(ClienteActivity.this, "Mensagem enviada.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ClienteActivity.this, "A mensagem foi salva no clipboard.", Toast.LENGTH_SHORT).show();
 
-                        sendWhatsIntent();
+                    final String msg = jsonResponse.getString("msg").toString();
+
+                    if (new String("success").equals(status)) {
+                        ClienteActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ClienteActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                                finish();
+                            }
+                        });
+                    } else {
+                        ClienteActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ClienteActivity.this, "A mensagem foi salva no clipboard.", Toast.LENGTH_SHORT).show();
+
+                                sendWhatsIntent();
+
+                                finish();
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -144,7 +161,7 @@ public class ClienteActivity extends AppCompatActivity {
         ClipData clip = ClipData.newPlainText("mensagem", mensagem);
         clipboard.setPrimaryClip(clip);
 
-        Uri uri = Uri.parse("smsto:" + "+55" + cliente.getTelefone());
+        Uri uri = Uri.parse("smsto:" + "+" + cliente.getTelefone());
 
         Intent i = new Intent(Intent.ACTION_SENDTO, uri);
 
