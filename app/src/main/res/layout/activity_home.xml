@@ -13,7 +13,9 @@
         android:text="Cadastrar Cliente"
         android:id="@+id/cadastrarButton"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        style="@style/submit_button"
+        android:layout_margin="20dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

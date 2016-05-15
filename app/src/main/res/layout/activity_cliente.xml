@@ -61,9 +61,6 @@
         android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"/>
+        style="@style/submit_button"/>
 
 </RelativeLayout>
