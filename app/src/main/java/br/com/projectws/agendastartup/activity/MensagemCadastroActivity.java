@@ -3,6 +3,7 @@ package br.com.projectws.agendastartup.activity;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +25,10 @@ import okhttp3.Response;
 
 public class MensagemCadastroActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
+
     private final OkHttpClient mClient = new OkHttpClient();
-    private Cliente cliente;
+    private Mensagem mensagem;
 
     private Button enviarButton, cancelarButton;
 
@@ -35,6 +38,9 @@ public class MensagemCadastroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mensagem_cadastro);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         enviarButton = (Button) findViewById(R.id.enviarButton);
         cancelarButton = (Button) findViewById(R.id.cancelarButton);
@@ -64,7 +70,7 @@ public class MensagemCadastroActivity extends AppCompatActivity {
             }
         });
 
-        Mensagem mensagem = getIntent().getParcelableExtra("mensagem");
+        mensagem = getIntent().getParcelableExtra("mensagem");
 
         if(mensagem != null) {
             tituloEditText.setText(mensagem.getTitulo());
@@ -78,10 +84,19 @@ public class MensagemCadastroActivity extends AppCompatActivity {
                 .add("mensagem", mensagemEditText.getText().toString())
                 .build();
 
-        Request request = new Request.Builder()
-                .url("http://192.168.0.15:8000/mensagem/create")
-                .post(requestBody)
-                .build();
+        Request request;
+
+        if(mensagem == null) {
+            request = new Request.Builder()
+                    .url("http://192.168.0.15:8000/mensagem/create")
+                    .post(requestBody)
+                    .build();
+        } else {
+            request = new Request.Builder()
+                    .url("http://192.168.0.15:8000/mensagem/update/" + mensagem.getId())
+                    .post(requestBody)
+                    .build();
+        }
 
         mClient.newCall(request).enqueue(new Callback() {
             @Override
