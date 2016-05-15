@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MensagemActivity(), "MENSAGENS");
         adapter.addFragment(new HomeActivity(), "CLIENTES");
-        adapter.addFragment(new HomeActivity(), "FILTROS");
+        adapter.addFragment(new FiltroActivity(), "FILTROS");
         viewPager.setAdapter(adapter);
     }
 
