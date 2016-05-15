@@ -92,7 +92,7 @@ public class ClienteActivity extends AppCompatActivity {
         interessesTableLayout.addView(interesseTableRow);
     }
 
-    private void sendWhatsapp() throws Exception {
+    private void sendWhatsapp() {
 
         RequestBody requestBody = new FormBody.Builder()
                 .add("message", "mensagem de texto...")
@@ -100,7 +100,7 @@ public class ClienteActivity extends AppCompatActivity {
                 .build();
 
         Request request = new Request.Builder()
-                .url("http://192.168.0.15:8000")
+                .url("http://192.168.0.15:8000/api/v1/message/send")
                 .post(requestBody)
                 .build();
 
@@ -113,20 +113,32 @@ public class ClienteActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                JSONObject jsonResponse = null;
                 try {
-                    jsonResponse = new JSONObject(response.body().string());
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
 
                     System.out.println(jsonResponse);
 
                     String status = jsonResponse.getString("status");
                     if (new String("success").equals(status)) {
-                        Toast.makeText(ClienteActivity.this, "Mensagem enviada.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ClienteActivity.this, "A mensagem foi salva no clipboard.", Toast.LENGTH_SHORT).show();
+                        ClienteActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ClienteActivity.this, "Mensagem enviada.", Toast.LENGTH_SHORT).show();
 
-                        sendWhatsIntent();
+                                finish();
+                            }
+                        });
+                    } else {
+                        ClienteActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ClienteActivity.this, "A mensagem foi salva no clipboard.", Toast.LENGTH_SHORT).show();
+
+                                sendWhatsIntent();
+
+                                finish();
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
