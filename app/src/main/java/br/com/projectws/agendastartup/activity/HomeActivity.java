@@ -91,16 +91,16 @@ public class HomeActivity extends Fragment {
     }
 
     private void prepareCliente() {
-        Cliente cliente = new Cliente("Luiza", "4288888888", "sapato, blusa, tricole");
+        Cliente cliente = new Cliente("Luiza", "554288888888", "sapato, blusa, tricole");
         clienteList.add(cliente);
 
-        cliente = new Cliente("Maria", "4299999999" , "sapato, blusa, tricole");
+        cliente = new Cliente("Maria", "554299999999" , "sapato, blusa, tricole");
         clienteList.add(cliente);
 
-        cliente = new Cliente("Guilhermino", "4298424923" , "sapato, blusa, tricole");
+        cliente = new Cliente("Guilhermino", "554298424923" , "sapato, blusa, tricole");
         clienteList.add(cliente);
 
-        cliente = new Cliente("Jonas", "4299603082" , "sapato, blusa, tricole");
+        cliente = new Cliente("Jonas", "554299603082" , "sapato, blusa, tricole");
         clienteList.add(cliente);
 
         mAdapter.notifyDataSetChanged();

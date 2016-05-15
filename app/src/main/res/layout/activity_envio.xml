@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/nomeTelefone"
+        android:id="@+id/nomeTelefoneTextView"
         android:hint="Contato - (XX) XXXX-XXXX"
         android:enabled="false"
         style="@style/input"/>
@@ -25,9 +25,10 @@
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/mensagemEditText"
-        android:layout_below="@id/nomeTelefone"
+        android:layout_below="@id/nomeTelefoneTextView"
         style="@style/input"
-        android:layout_above="@+id/enviarButton" />
+        android:layout_above="@+id/enviarButton"
+        android:text="..." />
 
     <Button
         android:layout_width="wrap_content"
