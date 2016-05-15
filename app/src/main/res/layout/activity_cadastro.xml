@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Nome"
+        android:hint="Nome"
         android:ems="10"
         android:id="@+id/nomeEditText"
         android:layout_alignParentTop="true"
@@ -28,7 +28,7 @@
         android:id="@+id/telefoneEditText"
         android:layout_below="@+id/nomeEditText"
         android:layout_alignParentStart="true"
-        android:text="Telefone"/>
+        android:hint="Telefone"/>
 
     <TextView
         android:layout_width="wrap_content"
