@@ -46,6 +46,12 @@ public class CadastroActivity extends AppCompatActivity {
 
         cliente = getIntent().getParcelableExtra("cliente");
 
+        if(cliente != null) {
+            nomeEditText.setText(cliente.getNome());
+            telefoneEditText.setText(cliente.getTelefone());
+            interessesEditText.setText(cliente.getTags());
+        }
+
         cancelarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
