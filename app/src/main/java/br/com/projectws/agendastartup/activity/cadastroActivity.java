@@ -47,7 +47,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         if(cliente != null) {
             nomeEditText.setText(cliente.getNome());
-            telefoneEditText.setText(cliente.getTelefone());
+            telefoneEditText.setText(cliente.getTelefone().substring(2, cliente.getTelefone().length()));
             interessesEditText.setText(cliente.getTags());
         }
 
