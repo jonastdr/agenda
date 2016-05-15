@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.model.Cliente;
-import okhttp3.OkHttpClient;
 
 public class ClienteActivity extends AppCompatActivity {
 

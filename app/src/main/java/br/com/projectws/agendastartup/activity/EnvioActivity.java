@@ -2,6 +2,7 @@ package br.com.projectws.agendastartup.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ public class EnvioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_envio);
 
         nomeTelefone = (TextView) findViewById(R.id.nomeTelefoneTextView);
-        nomeTelefone = (TextView) findViewById(R.id.mensagemEditText);
+        mensagem = (TextView) findViewById(R.id.mensagemEditText);
 
         setView();
 
@@ -54,10 +55,14 @@ public class EnvioActivity extends AppCompatActivity {
     }
 
     private void setView() {
+        cliente = getIntent().getParcelableExtra("cliente");
+
         nomeTelefone.setText(cliente.getNome() + " - " + cliente.getTelefone());
     }
 
     public void run() throws Exception {
+        Log.d("envio", "envio de mensagem...");
+
         RequestBody requestBody = new FormBody.Builder()
                 .add("message", "mensagem de texto...")
                 .add("target", cliente.getTelefone())
@@ -80,9 +85,19 @@ public class EnvioActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonResponse = new JSONObject(response.body().string());
                     String status = jsonResponse.getString("status");
+
+                    Log.d("resultado", jsonResponse.toString());
+
                     System.out.println(status);
                     if (new String("success").equals(status)) {
                         finish();
+
+                        EnvioActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Mensagem enviada.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     } else {
                         EnvioActivity.this.runOnUiThread(new Runnable() {
                             @Override

@@ -27,7 +27,8 @@
         android:id="@+id/mensagemEditText"
         android:layout_below="@id/nomeTelefoneTextView"
         style="@style/input"
-        android:layout_above="@+id/enviarButton" />
+        android:layout_above="@+id/enviarButton"
+        android:text="..." />
 
     <Button
         android:layout_width="wrap_content"
