@@ -47,7 +47,6 @@ public class HomeActivity extends Fragment {
 
     public HomeActivity() {}
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +59,6 @@ public class HomeActivity extends Fragment {
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-
 
         cadastrar = (Button) rootView.findViewById(R.id.cadastrarButton);
         cadastrar.setOnClickListener(new View.OnClickListener() {
@@ -101,10 +99,13 @@ public class HomeActivity extends Fragment {
             }
         }));
 
+
+        if (clienteList.isEmpty()) {
         try {
             prepare();
         } catch (Exception e) {
             e.printStackTrace();
+        }
         }
 
         return rootView;
@@ -131,16 +132,14 @@ public class HomeActivity extends Fragment {
                 if (!response.isSuccessful()) throw new IOException("Erro de Conexão" + response);
                 try {
                     JSONObject jsonResponse = new JSONObject(response.body().string());
+                    System.out.println(jsonResponse);
                     String status = jsonResponse.getString("status");
                     if (new String("success").equals(status)) {
-                        clienteList.clear();
-                        System.out.println("limpou home");
                         JSONArray contato = jsonResponse.getJSONObject("options").getJSONArray("contato");
                         System.out.println(contato.length());
                         for(int i = 0; i < contato.length(); i++) {
                             JSONObject cont = (JSONObject) contato.get(i);
                             JSONObject descricao = (JSONObject) cont.getJSONArray("perfil").get(0);
-                            System.out.println(cont);
                             cliente = new Cliente(
                                     cont.getString("id"),
                                     cont.getString("nome"),

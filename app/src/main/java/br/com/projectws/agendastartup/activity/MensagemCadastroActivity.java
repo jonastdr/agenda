@@ -23,14 +23,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MensagemCadastroActivity extends AppCompatActivity {
-
 //    private Toolbar toolbar;
-
     private final OkHttpClient mClient = new OkHttpClient();
     private Mensagem mensagem;
-
     private Button enviarButton, cancelarButton;
-
     private EditText tituloEditText, mensagemEditText;
 
     @Override
