@@ -27,7 +27,6 @@ import java.util.List;
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.adapter.ClienteAdapter;
 import br.com.projectws.agendastartup.model.Cliente;
-import br.com.projectws.agendastartup.model.Mensagem;
 import br.com.projectws.agendastartup.utils.DividerItemDecoration;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,11 +41,9 @@ public class HomeActivity extends Fragment {
     protected static final int REQUEST_CADASTRO = 200;
     protected Button cadastrar;
     protected List<Cliente> clienteList = new ArrayList<>();
-    protected List<Mensagem> mensagemList = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected ClienteAdapter mAdapter;
     private Cliente cliente;
-    private Mensagem mensagem;
 
     public HomeActivity() {}
 
@@ -142,7 +139,7 @@ public class HomeActivity extends Fragment {
                         for(int i = 0; i < contato.length(); i++) {
                             JSONObject cont = (JSONObject) contato.get(i);
                             JSONObject descricao = (JSONObject) cont.getJSONArray("perfil").get(0);
-                            System.out.println(descricao);
+                            System.out.println(cont);
                             cliente = new Cliente(
                                     cont.getString("id"),
                                     cont.getString("nome"),
