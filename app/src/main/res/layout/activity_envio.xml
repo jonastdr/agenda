@@ -12,12 +12,22 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/nomeTelefone"
+        android:hint="Contato - (XX) XXXX-XXXX"
+        android:enabled="false"
+        style="@style/input"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/mensagemEditText"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        style="@style/input"/>
+        android:layout_below="@id/nomeTelefone"
+        style="@style/input"
+        android:layout_above="@+id/enviarButton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -36,14 +46,4 @@
         android:layout_alignTop="@+id/enviarButton"
         android:layout_alignParentStart="true"
         style="@style/cancel_button"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:ems="10"
-        android:id="@+id/editText2"
-        android:layout_above="@+id/mensagemEditText"
-        android:layout_centerHorizontal="true" />
 </RelativeLayout>
