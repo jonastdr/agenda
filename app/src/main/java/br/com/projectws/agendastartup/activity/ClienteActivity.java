@@ -3,6 +3,8 @@ package br.com.projectws.agendastartup.activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.shapes.Shape;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -69,9 +71,9 @@ public class ClienteActivity extends AppCompatActivity {
         for(int i = 1; i <= 3; i++) {
             Button interesseTile = new Button(this);
 
+            interesseTile.setBackground(getDrawable(R.drawable.shape_interesse));
             interesseTile.setText("interesse " + i);
-            interesseTile.setBackgroundResource(R.color.colorTile);
-            interesseTile.setTextColor(getResources().getColor(R.color.colorTile));
+            interesseTile.setTextColor(Color.WHITE);
             interesseTile.setEnabled(false);
 
             interesseTableRow.addView(interesseTile);
