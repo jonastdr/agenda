@@ -42,12 +42,27 @@ public class HomeActivity extends Fragment {
     protected static final int REQUEST_CADASTRO = 200;
     protected Button cadastrar;
     protected List<Cliente> clienteList = new ArrayList<>();
+    protected List<Mensagem> mensagemList = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected ClienteAdapter mAdapter;
     private Cliente cliente;
     private Mensagem mensagem;
+    DataPassListener mCallback;
 
     public HomeActivity() {}
+
+    public interface DataPassListener{
+        public void passData(List<Mensagem> list);
+    }
+
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (DataPassListener)context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString());
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,23 +127,8 @@ public class HomeActivity extends Fragment {
         return rootView;
     }
 
-    private void prepareCliente() {
-        Cliente cliente = new Cliente("Luiza", "554288888888", "sapato, blusa, tricole");
-        clienteList.add(cliente);
-
-        cliente = new Cliente("Maria", "554299999999" , "sapato, blusa, tricole");
-        clienteList.add(cliente);
-
-        cliente = new Cliente("Guilhermino", "554298424923" , "sapato, blusa, tricole");
-        clienteList.add(cliente);
-
-        cliente = new Cliente("Jonas", "554299603082" , "sapato, blusa, tricole");
-        clienteList.add(cliente);
-
-        mAdapter.notifyDataSetChanged();
-    }
-
     private void prepare() throws Exception {
+        System.out.println("aqui");
 
         RequestBody requestBody = new FormBody.Builder()
                 .build();
@@ -172,7 +172,7 @@ public class HomeActivity extends Fragment {
                                     msg.getString("title"),
                                     msg.getString("message")
                             );
-                            clienteList.add(cliente);
+                            mensagemList.add(mensagem);
                         }
 
                     } else {
