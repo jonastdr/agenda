@@ -103,13 +103,11 @@ public class MensagemActivity extends Fragment {
             e.printStackTrace();
         }
 
-
         return rootView;
     }
 
-    private void prepare() throws Exception {
-        System.out.println("aqui");
 
+    private void prepare() throws Exception {
         RequestBody requestBody = new FormBody.Builder()
                 .build();
 
@@ -131,6 +129,8 @@ public class MensagemActivity extends Fragment {
                     JSONObject jsonResponse = new JSONObject(response.body().string());
                     String status = jsonResponse.getString("status");
                     if (new String("success").equals(status)) {
+                        System.out.println("limpou mensagem");
+                        mensagemList.clear();
                         JSONArray message = jsonResponse.getJSONObject("options").getJSONArray("messages");
 
                         for (int i = 0; i <message.length(); i++) {
