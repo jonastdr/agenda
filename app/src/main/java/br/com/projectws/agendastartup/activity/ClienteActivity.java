@@ -1,5 +1,6 @@
 package br.com.projectws.agendastartup.activity;
 
+import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.shapes.Shape;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +19,6 @@ import android.widget.TextView;
 
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.model.Cliente;
-import br.com.projectws.agendastartup.utils.TagDecoration;
 
 public class ClienteActivity extends AppCompatActivity {
 
@@ -62,6 +63,7 @@ public class ClienteActivity extends AppCompatActivity {
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     private void setView() {
         cliente = getIntent().getParcelableExtra("cliente");
 
@@ -71,8 +73,11 @@ public class ClienteActivity extends AppCompatActivity {
         TableRow interesseTableRow = new TableRow(this);
 
         for(int i = 1; i <= 3; i++) {
-            TextView interesseTag = new TagDecoration(this);
+            TextView interesseTag = new TextView(this);
 
+            interesseTag.setBackgroundResource(R.drawable.shape_tag);
+            interesseTag.setPadding(15,15,15,15);
+            interesseTag.setTextColor(Color.WHITE);
             interesseTag.setText("interesse " + i);
 
             interesseTableRow.addView(interesseTag);

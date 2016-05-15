@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import br.com.projectws.agendastartup.R;
+
 /**
  * Created by jonas on 14/05/16.
  */

@@ -21,7 +21,8 @@
         <activity android:name=".activity.ClienteActivity" />
         <activity android:name=".activity.MensagemActivity" />
         <activity android:name=".activity.CadastroActivity" />
-        <activity android:name=".activity.MensagemCadastroActivity"></activity>
+        <activity android:name=".activity.MensagemCadastroActivity" />
+        <activity android:name=".activity.EnvioActivity"></activity>
     </application>
 
 </manifest>
