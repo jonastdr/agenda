@@ -74,7 +74,7 @@ public class ClienteActivity extends AppCompatActivity {
         alterarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ClienteActivity.this, ClienteActivity.class);
+                Intent intent = new Intent(ClienteActivity.this, CadastroActivity.class);
                 Bundle mbundle = new Bundle();
                 mbundle.putParcelable("cliente", cliente);
                 intent.putExtras(mbundle);
