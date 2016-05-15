@@ -7,19 +7,29 @@ import android.os.Parcelable;
  * Created by jonas on 14/05/16.
  */
 public class Cliente implements Parcelable {
-    private String nome, telefone, tags;
+    private String id, nome, telefone, tags;
 
     public Cliente() {}
 
-    public Cliente(String nome, String telefone) {
+    public Cliente(String id, String nome, String telefone) {
+        this.id = id;
         this.nome = nome;
         this.telefone = telefone;
     }
 
-    public Cliente(String nome, String telefone, String tags) {
+    public Cliente(String id, String nome, String telefone, String tags) {
+        this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.tags = tags;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -47,12 +57,14 @@ public class Cliente implements Parcelable {
     }
 
     Cliente(Parcel in) {
+        this.id = in.readString();
         this.nome = in.readString();
         this.telefone = in.readString();
         this.tags = in.readString();
     }
 
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(nome);
         dest.writeString(telefone);
         dest.writeString(tags);
@@ -67,6 +79,7 @@ public class Cliente implements Parcelable {
 
         public Cliente createFromParcel(Parcel in) {
             Cliente Cliente = new Cliente();
+            Cliente.id = in.readString();
             Cliente.nome = in.readString();
             Cliente.telefone = in.readString();
             Cliente.tags = in.readString();

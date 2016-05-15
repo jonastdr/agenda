@@ -2,7 +2,6 @@ package br.com.projectws.agendastartup.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -67,7 +66,6 @@ public class EnvioActivity extends AppCompatActivity {
     }
 
     public void run() throws Exception {
-        Log.d("envio", "envio de mensagem...");
 
         RequestBody requestBody = new FormBody.Builder()
                 .add("message", "mensagem de texto...")
@@ -91,7 +89,6 @@ public class EnvioActivity extends AppCompatActivity {
                 System.out.println(response.body().string());
             }
         });
-
 
     }
 }

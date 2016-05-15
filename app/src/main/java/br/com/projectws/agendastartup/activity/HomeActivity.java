@@ -15,7 +15,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +29,22 @@ import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.adapter.ClienteAdapter;
 import br.com.projectws.agendastartup.model.Cliente;
 import br.com.projectws.agendastartup.utils.DividerItemDecoration;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class HomeActivity extends Fragment {
+    private final OkHttpClient mClient = new OkHttpClient();
     protected static final int REQUEST_CADASTRO = 200;
     protected Button cadastrar;
     protected List<Cliente> clienteList = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected ClienteAdapter mAdapter;
+    private Cliente cliente;
 
     public HomeActivity() {}
 
@@ -85,7 +100,12 @@ public class HomeActivity extends Fragment {
             }
         }));
 
-        prepareCliente();
+//        prepareCliente();
+        try {
+            prepare();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rootView;
     }
@@ -104,6 +124,70 @@ public class HomeActivity extends Fragment {
         clienteList.add(cliente);
 
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void prepare() throws Exception {
+
+        RequestBody requestBody = new FormBody.Builder()
+                .build();
+
+        Request request = new Request.Builder()
+                    .url("http://192.168.0.15:8000/api/v1/contato/filter")
+                .post(requestBody)
+                    .build();
+
+        mClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Erro de Conexão" + response);
+                try {
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
+                    String status = jsonResponse.getString("status");
+                    if (new String("success").equals(status)) {
+                        JSONArray contato = jsonResponse.getJSONObject("options").getJSONArray("contato");
+                        JSONArray message = jsonResponse.getJSONObject("options").getJSONArray("messages");
+                        for(int i = 0; i < contato.length(); i++) {
+                            JSONObject cont = (JSONObject) contato.get(i);
+                            JSONObject descricao = (JSONObject) cont.getJSONArray("perfil").get(0);
+                            cliente = new Cliente(
+                                    cont.getString("id"),
+                                    cont.getString("nome"),
+                                    cont.getString("numero"),
+                                    descricao.getString("descricao")
+                            );
+                            clienteList.add(cliente);
+                        }
+
+                        for (int i = 0; i <message.length(); i++) {
+
+                        }
+
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "Erro de Conexão", Toast.LENGTH_SHORT);
+                            }
+                        });
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
