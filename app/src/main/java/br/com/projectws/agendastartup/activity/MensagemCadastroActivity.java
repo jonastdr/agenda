@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -101,6 +102,8 @@ public class MensagemCadastroActivity extends AppCompatActivity {
         mClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Toast.makeText(MensagemCadastroActivity.this, "Falha no envio.", Toast.LENGTH_SHORT).show();
+
                 e.printStackTrace();
             }
 
