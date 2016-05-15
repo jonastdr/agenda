@@ -1,20 +1,15 @@
 package br.com.projectws.agendastartup.activity;
 
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 
 import br.com.projectws.agendastartup.R;
-import br.com.projectws.agendastartup.model.Cliente;
 import br.com.projectws.agendastartup.model.Mensagem;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -26,7 +21,7 @@ import okhttp3.Response;
 
 public class MensagemCadastroActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
+//    private Toolbar toolbar;
 
     private final OkHttpClient mClient = new OkHttpClient();
     private Mensagem mensagem;
@@ -40,8 +35,8 @@ public class MensagemCadastroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mensagem_cadastro);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         enviarButton = (Button) findViewById(R.id.enviarButton);
         cancelarButton = (Button) findViewById(R.id.cancelarButton);
@@ -114,6 +109,6 @@ public class MensagemCadastroActivity extends AppCompatActivity {
             }
         });
 
-
     }
+
 }

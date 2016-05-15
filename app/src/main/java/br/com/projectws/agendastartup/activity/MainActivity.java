@@ -13,10 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.projectws.agendastartup.R;
-import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
-    private final OkHttpClient mClient = new OkHttpClient();
+
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -42,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MensagemActivity(), "MENSAGENS");
         adapter.addFragment(new HomeActivity(), "CLIENTES");
+        adapter.addFragment(new MensagemActivity(), "MENSAGENS");
         adapter.addFragment(new FiltroActivity(), "FILTROS");
         viewPager.setAdapter(adapter);
     }
