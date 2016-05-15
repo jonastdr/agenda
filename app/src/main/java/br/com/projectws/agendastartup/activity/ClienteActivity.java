@@ -1,13 +1,8 @@
 package br.com.projectws.agendastartup.activity;
 
 import android.annotation.TargetApi;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.shapes.Shape;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +14,7 @@ import android.widget.TextView;
 
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.model.Cliente;
+import okhttp3.OkHttpClient;
 
 public class ClienteActivity extends AppCompatActivity {
 
@@ -45,7 +41,7 @@ public class ClienteActivity extends AppCompatActivity {
         enviarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                /*ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
                 String mensagem = "Olá " + cliente.getNome() + ", sou 'VENDEDOR' da loja 'LOJA'...";
 
@@ -58,7 +54,15 @@ public class ClienteActivity extends AppCompatActivity {
 
                 i.setPackage("com.whatsapp");
 
-                startActivity(i);
+                startActivity(i);*/
+
+                Intent intent = new Intent(ClienteActivity.this, EnvioActivity.class);
+
+                Bundle mbundle = new Bundle();
+                mbundle.putParcelable("cliente", cliente);
+                intent.putExtras(mbundle);
+
+                startActivity(intent);
             }
         });
     }
@@ -85,6 +89,4 @@ public class ClienteActivity extends AppCompatActivity {
 
         interessesTableLayout.addView(interesseTableRow);
     }
-
-
 }
