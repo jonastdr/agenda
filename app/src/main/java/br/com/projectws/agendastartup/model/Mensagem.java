@@ -12,7 +12,8 @@ public class Mensagem implements Parcelable {
 
     public Mensagem() {}
 
-    public Mensagem(String titulo, String mensagem) {
+    public Mensagem(String id, String titulo, String mensagem) {
+        this.id = id;
         this.titulo = titulo;
         this.mensagem = mensagem;
     }
@@ -42,11 +43,13 @@ public class Mensagem implements Parcelable {
     }
 
     Mensagem(Parcel in) {
+        this.id = in.readString();
         this.titulo = in.readString();
         this.mensagem = in.readString();
     }
 
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(titulo);
         dest.writeString(mensagem);
     }
@@ -60,6 +63,7 @@ public class Mensagem implements Parcelable {
 
         public Mensagem createFromParcel(Parcel in) {
             Mensagem Mensagem = new Mensagem();
+            Mensagem.id = in.readString();
             Mensagem.titulo = in.readString();
             Mensagem.mensagem = in.readString();
             return Mensagem;

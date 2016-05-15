@@ -1,6 +1,5 @@
 package br.com.projectws.agendastartup.activity;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +27,7 @@ import java.util.List;
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.adapter.ClienteAdapter;
 import br.com.projectws.agendastartup.model.Cliente;
+import br.com.projectws.agendastartup.model.Mensagem;
 import br.com.projectws.agendastartup.utils.DividerItemDecoration;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -45,6 +45,7 @@ public class HomeActivity extends Fragment {
     protected RecyclerView recyclerView;
     protected ClienteAdapter mAdapter;
     private Cliente cliente;
+    private Mensagem mensagem;
 
     public HomeActivity() {}
 
@@ -60,6 +61,7 @@ public class HomeActivity extends Fragment {
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+
 
         cadastrar = (Button) rootView.findViewById(R.id.cadastrarButton);
         cadastrar.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +166,13 @@ public class HomeActivity extends Fragment {
                         }
 
                         for (int i = 0; i <message.length(); i++) {
-
+                            JSONObject msg = (JSONObject) message.get(i);
+                            mensagem = new Mensagem(
+                                    msg.getString("id"),
+                                    msg.getString("title"),
+                                    msg.getString("message")
+                            );
+                            clienteList.add(cliente);
                         }
 
                     } else {
