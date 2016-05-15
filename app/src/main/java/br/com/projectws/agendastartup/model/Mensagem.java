@@ -7,13 +7,22 @@ import android.os.Parcelable;
  * Created by guilhermino on 5/15/16.
  */
 public class Mensagem implements Parcelable {
-    private String titulo, mensagem;
+
+    private String id, titulo, mensagem;
 
     public Mensagem() {}
 
     public Mensagem(String titulo, String mensagem) {
         this.titulo = titulo;
         this.mensagem = mensagem;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitulo() {

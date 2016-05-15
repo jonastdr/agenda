@@ -15,7 +15,8 @@
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/shape_thumbnail"/>
+        android:background="@drawable/shape_thumbnail"
+        />
 
     <TextView
         android:layout_width="match_parent"
