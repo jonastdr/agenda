@@ -132,19 +132,21 @@ public class HomeActivity extends Fragment {
                 if (!response.isSuccessful()) throw new IOException("Erro de Conexão" + response);
                 try {
                     JSONObject jsonResponse = new JSONObject(response.body().string());
-                    System.out.println(jsonResponse);
+
                     String status = jsonResponse.getString("status");
                     if (new String("success").equals(status)) {
                         JSONArray contato = jsonResponse.getJSONObject("options").getJSONArray("contato");
-                        System.out.println(contato.length());
+
                         for(int i = 0; i < contato.length(); i++) {
                             JSONObject cont = (JSONObject) contato.get(i);
-                            JSONObject descricao = (JSONObject) cont.getJSONArray("perfil").get(0);
+                            System.out.println(cont);
+                            String descricao = cont.getJSONArray("perfil").join(" ");
+                            System.out.println(descricao);
                             cliente = new Cliente(
                                     cont.getString("id"),
                                     cont.getString("nome"),
                                     cont.getString("numero"),
-                                    descricao.getString("descricao")
+                                    descricao
                             );
                             clienteList.add(cliente);
                         }
