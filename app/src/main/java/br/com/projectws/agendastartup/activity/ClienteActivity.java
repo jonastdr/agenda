@@ -73,7 +73,7 @@ public class ClienteActivity extends AppCompatActivity {
         cliente = getIntent().getParcelableExtra("cliente");
 
         nome.setText(cliente.getNome());
-        telefone.setText(cliente.getTelefone());
+        telefone.setText(cliente.getTelefone().substring(2, cliente.getTelefone().length()));
         telefone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
         TableRow interesseTableRow = new TableRow(this);
@@ -119,11 +119,13 @@ public class ClienteActivity extends AppCompatActivity {
                     System.out.println(jsonResponse);
 
                     String status = jsonResponse.getString("status");
+                    final String msg = jsonResponse.getString("msg").toString();
+
                     if (new String("success").equals(status)) {
                         ClienteActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(ClienteActivity.this, "Mensagem enviada.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ClienteActivity.this, msg, Toast.LENGTH_SHORT).show();
 
                                 finish();
                             }

@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import br.com.projectws.agendastartup.R;
@@ -81,20 +84,21 @@ public class MensagemCadastroActivity extends AppCompatActivity {
 
     public void run() throws Exception {
         RequestBody requestBody = new FormBody.Builder()
-                .add("titulo", tituloEditText.getText().toString())
-                .add("mensagem", mensagemEditText.getText().toString())
+                .add("title", tituloEditText.getText().toString())
+                .add("message", mensagemEditText.getText().toString())
+                .add("id_usuario", "1")
                 .build();
 
         Request request;
 
         if(mensagem == null) {
             request = new Request.Builder()
-                    .url("http://192.168.0.15:8000/mensagem/create")
+                    .url("http://192.168.0.15:8000/api/v1/message/create")
                     .post(requestBody)
                     .build();
         } else {
             request = new Request.Builder()
-                    .url("http://192.168.0.15:8000/mensagem/update/" + mensagem.getId())
+                    .url("http://192.168.0.15:8000/api/v1/message/update/" + mensagem.getId())
                     .post(requestBody)
                     .build();
         }
@@ -110,7 +114,34 @@ public class MensagemCadastroActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-                System.out.println(response.body().string());
+                try {
+                    final JSONObject jsonResponse = new JSONObject(response.body().string());
+
+                    System.out.println(jsonResponse);
+
+                    String status = jsonResponse.getString("status");
+                    final String msg = jsonResponse.getString("msg").toString();
+
+                    if (new String("success").equals(status)) {
+                        MensagemCadastroActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MensagemCadastroActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                                finish();
+                            }
+                        });
+                    } else {
+                        MensagemCadastroActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MensagemCadastroActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

@@ -75,10 +75,9 @@ public class CadastroActivity extends AppCompatActivity {
         RequestBody requestBody = new FormBody.Builder()
                 .add("nome", nomeEditText.getText().toString())
                 .add("numero", "55" + telefoneEditText.getText().toString())
-                .add("telefone", "1")
-                .add("whatsapp", "1")
-                .add("descricao", "...")
-                .add("perfil[][]", interessesEditText.getText().toString())
+                .add("telefone", "0")
+                .add("whatsapp", "0")
+                .add("perfil", interessesEditText.getText().toString())
                 .add("id_usuario", "1")
                 .build();
 
@@ -111,11 +110,13 @@ public class CadastroActivity extends AppCompatActivity {
                     System.out.println(jsonResponse);
 
                     String status = jsonResponse.getString("status");
+                    final String msg = jsonResponse.getString("msg").toString();
+
                     if (new String("success").equals(status)) {
                         CadastroActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(CadastroActivity.this, "Cliente cadastrado com sucesso.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CadastroActivity.this, msg, Toast.LENGTH_SHORT).show();
 
                                 finish();
                             }
@@ -124,13 +125,7 @@ public class CadastroActivity extends AppCompatActivity {
                         CadastroActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                try {
-                                    Toast.makeText(CadastroActivity.this, jsonResponse.getString("msg"), Toast.LENGTH_SHORT).show();
-                                } catch (JSONException e) {
-                                    Toast.makeText(CadastroActivity.this, "Falha na conexão.", Toast.LENGTH_SHORT).show();
-
-                                    e.printStackTrace();
-                                }
+                                Toast.makeText(CadastroActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
