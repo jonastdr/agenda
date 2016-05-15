@@ -30,6 +30,7 @@ public class ClienteActivity extends AppCompatActivity {
 
         nome = (TextView) findViewById(R.id.nomeTextView);
         telefone = (TextView) findViewById(R.id.telefoneTextView);
+
         interessesTableLayout = (TableLayout) findViewById(R.id.interessesTableLayout);
 
         setView();

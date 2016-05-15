@@ -3,6 +3,7 @@ package br.com.projectws.agendastartup.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         nomeEditText = (EditText) findViewById(R.id.nomeEditText);
         telefoneEditText = (EditText) findViewById(R.id.telefoneEditText);
+        telefoneEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         interessesEditText = (EditText) findViewById(R.id.interreseEditText);
         salvarButton = (Button) findViewById(R.id.salvarButton);
         cancelarButton = (Button) findViewById(R.id.cancelarButton);

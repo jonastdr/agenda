@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,6 @@ import br.com.projectws.agendastartup.utils.DividerItemDecoration;
 
 public class FiltroActivity extends Fragment {
     protected static final int REQUEST_CADASTRO = 200;
-    protected Button cadastrar;
     protected List<Cliente> clienteList = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected ClienteAdapter mAdapter;
@@ -102,7 +100,7 @@ public class FiltroActivity extends Fragment {
         if(requestCode == REQUEST_CADASTRO) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
-                    Cliente cliente = new Cliente(data.getStringExtra("nome"),
+                    Cliente cliente = new Cliente(data.getStringExtra("id"), data.getStringExtra("nome"),
                             data.getStringExtra("telefone"), data.getStringExtra("interesses"));
                     clienteList.add(cliente);
                     mAdapter.notifyDataSetChanged();
