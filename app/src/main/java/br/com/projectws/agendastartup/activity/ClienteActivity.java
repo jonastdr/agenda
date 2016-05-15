@@ -72,19 +72,21 @@ public class ClienteActivity extends AppCompatActivity {
     private void setView() {
         cliente = getIntent().getParcelableExtra("cliente");
 
+        String[] tags = cliente.getTags().split(" ");
+
         nome.setText(cliente.getNome());
         telefone.setText(cliente.getTelefone().substring(2, cliente.getTelefone().length()));
         telefone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
         TableRow interesseTableRow = new TableRow(this);
 
-        for(int i = 1; i <= 3; i++) {
+        for(String tag: tags) {
             TextView interesseTag = new TextView(this);
 
             interesseTag.setBackgroundResource(R.drawable.shape_tag);
             interesseTag.setPadding(15,15,15,15);
             interesseTag.setTextColor(Color.WHITE);
-            interesseTag.setText("interesse " + i);
+            interesseTag.setText(tag);
 
             interesseTableRow.addView(interesseTag);
         }
