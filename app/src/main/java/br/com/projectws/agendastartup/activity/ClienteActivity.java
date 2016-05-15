@@ -85,4 +85,6 @@ public class ClienteActivity extends AppCompatActivity {
 
         interessesTableLayout.addView(interesseTableRow);
     }
+
+
 }
