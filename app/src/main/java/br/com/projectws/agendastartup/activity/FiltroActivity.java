@@ -14,7 +14,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +29,25 @@ import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.adapter.ClienteAdapter;
 import br.com.projectws.agendastartup.model.Cliente;
 import br.com.projectws.agendastartup.utils.DividerItemDecoration;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class FiltroActivity extends Fragment {
+    private final OkHttpClient mClient = new OkHttpClient();
+
+    private Cliente cliente;
+
     protected static final int REQUEST_CADASTRO = 200;
     protected List<Cliente> clienteList = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected ClienteAdapter mAdapter;
+
+    SearchView searchView;
 
     public FiltroActivity() {}
 
@@ -74,25 +94,92 @@ public class FiltroActivity extends Fragment {
             }
         }));
 
-        prepareCliente();
+        searchView = (SearchView) rootView.findViewById(R.id.searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                try {
+                    prepareCliente(s);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+
+                return false;
+            }
+        });
 
         return rootView;
     }
 
-    private void prepareCliente() {
-        Cliente cliente = new Cliente("Luiza", "554288888888", "sapato, blusa, tricole");
-        clienteList.add(cliente);
+    private void prepareCliente(String filtro) {
+        RequestBody requestBody = new FormBody.Builder()
+                .add("pesquisar", filtro)
+                .build();
 
-        cliente = new Cliente("Maria", "554299999999" , "sapato, blusa, tricole");
-        clienteList.add(cliente);
+        Request request = new Request.Builder()
+                .url("http://192.168.0.15:8000/api/v1/contato/filter")
+                .post(requestBody)
+                .build();
 
-        cliente = new Cliente("Guilhermino", "554298424923" , "sapato, blusa, tricole");
-        clienteList.add(cliente);
+        mClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
 
-        cliente = new Cliente("Jonas", "554299603082" , "sapato, blusa, tricole");
-        clienteList.add(cliente);
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Erro de Conexão" + response);
+                try {
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
 
-        mAdapter.notifyDataSetChanged();
+                    System.out.println(jsonResponse);
+
+                    String status = jsonResponse.getString("status");
+                    if (new String("success").equals(status)) {
+                        clienteList.clear();
+
+                        JSONArray contato = jsonResponse.getJSONObject("options").getJSONArray("contato");
+
+                        for(int i = 0; i < contato.length(); i++) {
+                            JSONObject cont = (JSONObject) contato.get(i);
+                            JSONObject descricao = (JSONObject) cont.getJSONArray("perfil").get(0);
+                            cliente = new Cliente(
+                                    cont.getString("id"),
+                                    cont.getString("nome"),
+                                    cont.getString("numero"),
+                                    descricao.getString("descricao")
+                            );
+                            clienteList.add(cliente);
+                        }
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "Erro de Conexão", Toast.LENGTH_SHORT);
+                            }
+                        });
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

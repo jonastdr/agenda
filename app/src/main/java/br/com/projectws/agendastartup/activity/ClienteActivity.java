@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -73,6 +74,7 @@ public class ClienteActivity extends AppCompatActivity {
 
         nome.setText(cliente.getNome());
         telefone.setText(cliente.getTelefone());
+        telefone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
         TableRow interesseTableRow = new TableRow(this);
 
