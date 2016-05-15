@@ -1,31 +1,41 @@
 package br.com.projectws.agendastartup.activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import br.com.projectws.agendastartup.R;
 
-public class MensagemActivity extends AppCompatActivity {
+public class MensagemActivity extends Fragment {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mensagem);
+    }
 
-        Button novaBtn = (Button) findViewById(R.id.novaBtn);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceStage) {
+        View rootView = inflater.inflate(R.layout.activity_mensagem, container, false);
+
+        Button novaBtn = (Button) rootView.findViewById(R.id.novaBtn);
 
         assert novaBtn != null;
         novaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MensagemActivity.this, MensagemCadastroActivity.class);
+                Intent intent = new Intent(getActivity(), MensagemCadastroActivity.class);
 
                 startActivity(intent);
             }
         });
+
+
+        return rootView;
     }
+
 }
