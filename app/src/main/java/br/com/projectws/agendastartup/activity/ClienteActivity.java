@@ -119,6 +119,7 @@ public class ClienteActivity extends AppCompatActivity {
                     System.out.println(jsonResponse);
 
                     String status = jsonResponse.getString("status");
+
                     final String msg = jsonResponse.getString("msg").toString();
 
                     if (new String("success").equals(status)) {
@@ -158,7 +159,7 @@ public class ClienteActivity extends AppCompatActivity {
         ClipData clip = ClipData.newPlainText("mensagem", mensagem);
         clipboard.setPrimaryClip(clip);
 
-        Uri uri = Uri.parse("smsto:" + "+55" + cliente.getTelefone());
+        Uri uri = Uri.parse("smsto:" + "+" + cliente.getTelefone());
 
         Intent i = new Intent(Intent.ACTION_SENDTO, uri);
 
