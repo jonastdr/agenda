@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -41,6 +42,8 @@ public class ClienteActivity extends AppCompatActivity {
     private AlertDialog alert;
     TableLayout interessesTableLayout;
 
+    private ImageButton alterarButton;
+
     Cliente cliente;
 
     @Override
@@ -66,6 +69,19 @@ public class ClienteActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        alterarButton = (ImageButton) findViewById(R.id.alterarButton);
+
+        alterarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ClienteActivity.this, CadastroActivity.class);
+                Bundle mbundle = new Bundle();
+                mbundle.putParcelable("cliente", cliente);
+                intent.putExtras(mbundle);
+                startActivity(intent);
             }
         });
     }
