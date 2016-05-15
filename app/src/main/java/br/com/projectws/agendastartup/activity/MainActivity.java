@@ -13,11 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.projectws.agendastartup.R;
+import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
+    private final OkHttpClient mClient = new OkHttpClient();
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

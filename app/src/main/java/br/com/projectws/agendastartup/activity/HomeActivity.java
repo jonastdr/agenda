@@ -136,6 +136,8 @@ public class HomeActivity extends Fragment {
                     JSONObject jsonResponse = new JSONObject(response.body().string());
                     String status = jsonResponse.getString("status");
                     if (new String("success").equals(status)) {
+                        clienteList.clear();
+                        System.out.println("limpou home");
                         JSONArray contato = jsonResponse.getJSONObject("options").getJSONArray("contato");
                         for(int i = 0; i < contato.length(); i++) {
                             JSONObject cont = (JSONObject) contato.get(i);
@@ -154,7 +156,7 @@ public class HomeActivity extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getContext(), "Erro de Conexão", Toast.LENGTH_SHORT);
+                                Toast.makeText(getContext(), "Erro de Conexão", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -190,7 +192,6 @@ public class HomeActivity extends Fragment {
         }
 
     }
-
 
     public interface ClickListener {
         void onClick(View view, int position);
