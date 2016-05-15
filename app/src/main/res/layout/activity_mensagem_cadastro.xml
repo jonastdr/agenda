@@ -10,36 +10,52 @@
     tools:context="br.com.projectws.agendastartup.activity.MensagemCadastroActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Títutlo"
+        android:id="@+id/textView5"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/tituloEditText"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentStart="true"
+        style="@style/input"/>
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Mensagem"
         android:id="@+id/textView4"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@id/tituloEditText"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/mensagemEditText"
         android:layout_below="@+id/textView4"
-        android:layout_alignParentStart="true"
         style="@style/input"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enviar Clientes"
-        android:id="@+id/button2"
+        android:text="Salvar"
+        android:id="@+id/enviarButton"
+        style="@style/submit_button"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignEnd="@+id/mensagemEditText" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Salvar"
-        android:id="@+id/button3"
-        android:layout_alignTop="@+id/button2"
-        android:layout_alignParentStart="true" />
+        android:text="Cancelar"
+        android:id="@+id/cancelarButton"
+        style="@style/cancel_button"
+        android:layout_alignBottom="@+id/enviarButton"
+        android:layout_alignStart="@+id/mensagemEditText" />
 </RelativeLayout>
