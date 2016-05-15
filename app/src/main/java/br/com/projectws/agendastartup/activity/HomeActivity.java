@@ -51,7 +51,7 @@ public class HomeActivity extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CadastroActivity.class);
-                getActivity().startActivityForResult(intent, REQUEST_CADASTRO);
+                startActivityForResult(intent, REQUEST_CADASTRO);
             }
         });
 
@@ -121,7 +121,6 @@ public class HomeActivity extends Fragment {
             }
 
         }
-
 
     }
 
