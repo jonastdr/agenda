@@ -3,11 +3,15 @@ package br.com.projectws.agendastartup.activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.shapes.Shape;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import br.com.projectws.agendastartup.R;
@@ -16,6 +20,8 @@ import br.com.projectws.agendastartup.model.Cliente;
 public class ClienteActivity extends AppCompatActivity {
 
     TextView nome, telefone;
+
+    TableLayout interessesTableLayout;
 
     Cliente cliente;
 
@@ -26,11 +32,9 @@ public class ClienteActivity extends AppCompatActivity {
 
         nome = (TextView) findViewById(R.id.nomeTextView);
         telefone = (TextView) findViewById(R.id.telefoneTextView);
+        interessesTableLayout = (TableLayout) findViewById(R.id.interessesTableLayout);
 
-        cliente = getIntent().getParcelableExtra("cliente");
-
-        nome.setText(cliente.getNome());
-        telefone.setText(cliente.getTelefone());
+        setView();
 
         Button enviarBtn = (Button) findViewById(R.id.enviarBtn);
 
@@ -54,5 +58,27 @@ public class ClienteActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private void setView() {
+        cliente = getIntent().getParcelableExtra("cliente");
+
+        nome.setText(cliente.getNome());
+        telefone.setText(cliente.getTelefone());
+
+        TableRow interesseTableRow = new TableRow(this);
+
+        for(int i = 1; i <= 3; i++) {
+            Button interesseTile = new Button(this);
+
+            interesseTile.setBackground(getDrawable(R.drawable.shape_interesse));
+            interesseTile.setText("interesse " + i);
+            interesseTile.setTextColor(Color.WHITE);
+            interesseTile.setEnabled(false);
+
+            interesseTableRow.addView(interesseTile);
+        }
+
+        interessesTableLayout.addView(interesseTableRow);
     }
 }
