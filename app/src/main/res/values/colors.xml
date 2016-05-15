@@ -8,4 +8,8 @@
 
     <color name="colorTitle">#6c6c6c</color>
     <color name="colorTile">#212121</color>
+
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
 </resources>

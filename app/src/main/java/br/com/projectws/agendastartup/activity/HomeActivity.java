@@ -1,16 +1,19 @@
 package br.com.projectws.agendastartup.activity;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -21,45 +24,52 @@ import br.com.projectws.agendastartup.adapter.ClienteAdapter;
 import br.com.projectws.agendastartup.model.Cliente;
 import br.com.projectws.agendastartup.utils.DividerItemDecoration;
 
-public class HomeActivity extends AppCompatActivity {
-    private static final int REQUEST_CADASTRO = 200;
-    private Button cadastrar;
-    private List<Cliente> clienteList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private ClienteAdapter mAdapter;
+public class HomeActivity extends Fragment {
+    protected static final int REQUEST_CADASTRO = 200;
+    protected Button cadastrar;
+    protected List<Cliente> clienteList = new ArrayList<>();
+    protected RecyclerView recyclerView;
+    protected ClienteAdapter mAdapter;
+
+    public HomeActivity() {}
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceStage) {
+        View rootView = inflater.inflate(R.layout.activity_home, container, false);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        cadastrar = (Button) findViewById(R.id.cadastrarButton);
+        cadastrar = (Button) rootView.findViewById(R.id.cadastrarButton);
         cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, CadastroActivity.class);
-                startActivityForResult(intent, REQUEST_CADASTRO);
+                Intent intent = new Intent(getActivity(), CadastroActivity.class);
+                getActivity().startActivityForResult(intent, REQUEST_CADASTRO);
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
 
         mAdapter = new ClienteAdapter(clienteList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity().getApplicationContext(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Cliente cliente = clienteList.get(position);
                 try {
-                    Intent intent = new Intent(HomeActivity.this, ClienteActivity.class);
+                    Intent intent = new Intent(getActivity(), ClienteActivity.class);
                     Bundle mbundle = new Bundle();
                     mbundle.putParcelable("cliente", cliente);
                     intent.putExtras(mbundle);
@@ -76,6 +86,8 @@ public class HomeActivity extends AppCompatActivity {
         }));
 
         prepareCliente();
+
+        return rootView;
     }
 
     private void prepareCliente() {
@@ -95,9 +107,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CADASTRO) {
-            if (resultCode == RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 try {
                     Cliente cliente = new Cliente(data.getStringExtra("nome"),
                             data.getStringExtra("telefone"), data.getStringExtra("interesses"));
