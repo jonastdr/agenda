@@ -13,7 +13,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +27,21 @@ import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.adapter.MensagemAdapter;
 import br.com.projectws.agendastartup.model.Mensagem;
 import br.com.projectws.agendastartup.utils.DividerItemDecoration;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MensagemActivity extends Fragment {
+    private final OkHttpClient mClient = new OkHttpClient();
     protected static final int REQUEST_CADASTRO = 201;
     protected List<Mensagem> mensagemList = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected MensagemAdapter mAdapter;
+    private Mensagem mensagem;
     
     public MensagemActivity() {}
 
@@ -82,21 +97,73 @@ public class MensagemActivity extends Fragment {
             }
         }));
 
-        prepareMensagem();
+        try {
+            prepare();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         return rootView;
     }
 
-    private void prepareMensagem() {
-        Mensagem mensagem = new Mensagem("PROMOÇÃO", "nova promoxao");
-        mensagemList.add(mensagem);
+    private void prepare() throws Exception {
+        System.out.println("aqui");
 
-        mensagem = new Mensagem("TENIS PRETO", "nova promoxao");
-        mensagemList.add(mensagem);
+        RequestBody requestBody = new FormBody.Builder()
+                .build();
+
+        Request request = new Request.Builder()
+                .url("http://192.168.0.15:8000/api/v1/contato/filter")
+                .post(requestBody)
+                .build();
+
+        mClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) throw new IOException("Erro de Conexão" + response);
+                try {
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
+                    String status = jsonResponse.getString("status");
+                    if (new String("success").equals(status)) {
+                        JSONArray message = jsonResponse.getJSONObject("options").getJSONArray("messages");
+
+                        for (int i = 0; i <message.length(); i++) {
+                            JSONObject msg = (JSONObject) message.get(i);
+                            mensagem = new Mensagem(
+                                    msg.getString("id"),
+                                    msg.getString("title"),
+                                    msg.getString("message")
+                            );
+                            mensagemList.add(mensagem);
+                        }
+
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "Erro de Conexão", Toast.LENGTH_SHORT);
+                            }
+                        });
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    });
 
 
-        mAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public interface ClickListener {

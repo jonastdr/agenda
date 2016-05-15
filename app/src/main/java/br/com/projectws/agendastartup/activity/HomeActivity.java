@@ -47,22 +47,9 @@ public class HomeActivity extends Fragment {
     protected ClienteAdapter mAdapter;
     private Cliente cliente;
     private Mensagem mensagem;
-    DataPassListener mCallback;
 
     public HomeActivity() {}
 
-    public interface DataPassListener{
-        public void passData(List<Mensagem> list);
-    }
-
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mCallback = (DataPassListener)context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString());
-        }
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,7 +104,6 @@ public class HomeActivity extends Fragment {
             }
         }));
 
-//        prepareCliente();
         try {
             prepare();
         } catch (Exception e) {
@@ -128,7 +114,6 @@ public class HomeActivity extends Fragment {
     }
 
     private void prepare() throws Exception {
-        System.out.println("aqui");
 
         RequestBody requestBody = new FormBody.Builder()
                 .build();
@@ -152,10 +137,10 @@ public class HomeActivity extends Fragment {
                     String status = jsonResponse.getString("status");
                     if (new String("success").equals(status)) {
                         JSONArray contato = jsonResponse.getJSONObject("options").getJSONArray("contato");
-                        JSONArray message = jsonResponse.getJSONObject("options").getJSONArray("messages");
                         for(int i = 0; i < contato.length(); i++) {
                             JSONObject cont = (JSONObject) contato.get(i);
                             JSONObject descricao = (JSONObject) cont.getJSONArray("perfil").get(0);
+                            System.out.println(descricao);
                             cliente = new Cliente(
                                     cont.getString("id"),
                                     cont.getString("nome"),
@@ -163,16 +148,6 @@ public class HomeActivity extends Fragment {
                                     descricao.getString("descricao")
                             );
                             clienteList.add(cliente);
-                        }
-
-                        for (int i = 0; i <message.length(); i++) {
-                            JSONObject msg = (JSONObject) message.get(i);
-                            mensagem = new Mensagem(
-                                    msg.getString("id"),
-                                    msg.getString("title"),
-                                    msg.getString("message")
-                            );
-                            mensagemList.add(mensagem);
                         }
 
                     } else {
