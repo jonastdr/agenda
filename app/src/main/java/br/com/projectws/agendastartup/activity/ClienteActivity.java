@@ -38,7 +38,7 @@ public class ClienteActivity extends AppCompatActivity {
     private final OkHttpClient mClient = new OkHttpClient();
     private String[] array = {"mensagem1", "mensagem2"};
     TextView nome, telefone;
-
+    private AlertDialog alert;
     TableLayout interessesTableLayout;
 
     Cliente cliente;
@@ -69,20 +69,19 @@ public class ClienteActivity extends AppCompatActivity {
             }
         });
     }
-    public void Dialog () {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setTitle("Escolha a Mensagem")
-                .setItems(array, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // The 'which' argument contains the index position
-                        // of the selected item
-                        if (which == 1) {
-                            sendWhatsapp();
-                        }
-                    }
-                });
-        AlertDialog alert = builder.create();
+
+    public void Dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Escolha uma mensagem!");
+        builder.setItems(array, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert = builder.create();
         alert.show();
+
     }
 
 
