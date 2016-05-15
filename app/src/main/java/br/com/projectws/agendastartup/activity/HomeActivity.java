@@ -140,13 +140,13 @@ public class HomeActivity extends Fragment {
                         for(int i = 0; i < contato.length(); i++) {
                             JSONObject cont = (JSONObject) contato.get(i);
                             System.out.println(cont);
-                            String descricao = cont.getJSONArray("perfil").join(" ");
+                            JSONArray descricao = (JSONArray) cont.getJSONArray("perfil").get(0);
                             System.out.println(descricao);
                             cliente = new Cliente(
                                     cont.getString("id"),
                                     cont.getString("nome"),
                                     cont.getString("numero"),
-                                    descricao
+                                    descricao.toString()
                             );
                             clienteList.add(cliente);
                         }
