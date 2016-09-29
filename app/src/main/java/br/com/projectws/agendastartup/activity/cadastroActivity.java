@@ -28,7 +28,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     private String nome, telefone, endereco, email;
     private EditText nomeEditText, telefoneEditText, enderecoEditText, emailEditText;
-    private Button salvarButton, cancelarButton;
+    private Button salvarButton, cancelarButton, excluirButton;
     private Cliente cliente;
 
     @Override
@@ -41,12 +41,15 @@ public class CadastroActivity extends AppCompatActivity {
         telefoneEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         enderecoEditText = (EditText) findViewById(R.id.enderecoEditText);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
+        excluirButton = (Button) findViewById(R.id.excluirButton);
         salvarButton = (Button) findViewById(R.id.salvarButton);
         cancelarButton = (Button) findViewById(R.id.cancelarButton);
 
         cliente = getIntent().getParcelableExtra("cliente");
 
         if(cliente != null) {
+            excluirButton.setVisibility(View.VISIBLE);
+
             nomeEditText.setText(cliente.getNome());
             telefoneEditText.setText(cliente.getTelefone().substring(2, cliente.getTelefone().length()));
             enderecoEditText.setText(cliente.getEndereco());
@@ -68,78 +71,42 @@ public class CadastroActivity extends AppCompatActivity {
                 endereco = enderecoEditText.getText().toString();
                 email = emailEditText.getText().toString();
 
-                /*Intent intent = new Intent();
-                intent.putExtra("nome", nome);
-                intent.putExtra("telefone", telefone);
-                intent.putExtra("interesses", interreses);
-                */
                 send();
             }
         });
     }
 
     private void send() {
+        if(nome.equals("")) {
+            Toast.makeText(CadastroActivity.this, "Deve informar um nome.", Toast.LENGTH_SHORT).show();
 
-        RequestBody requestBody = new FormBody.Builder()
-                .add("nome", nomeEditText.getText().toString())
-                .add("numero", "55" + telefoneEditText.getText().toString())
-                .add("endereco", enderecoEditText.getText().toString())
-                .add("email", emailEditText.getText().toString())
-                .build();
+            return;
+        }
+        if(telefone.equals("")) {
+            Toast.makeText(CadastroActivity.this, "Deve informar um telefone.", Toast.LENGTH_SHORT).show();
 
-        Request request;
+            return;
+        }
+        if(endereco.equals("")) {
+            Toast.makeText(CadastroActivity.this, "Deve informar um endereço.", Toast.LENGTH_SHORT).show();
 
-        if(cliente == null) {
-            request = new Request.Builder()
-                    .url("http://192.168.0.15:8000/api/v1/contato/create")
-                    .post(requestBody)
-                    .build();
-        } else {
-            request = new Request.Builder()
-                    .url("http://192.168.0.15:8000/api/v1/contato/update/" + cliente.getId())
-                    .post(requestBody)
-                    .build();
+            return;
+        }
+        if(email.equals("")) {
+            Toast.makeText(CadastroActivity.this, "Deve informar um email.", Toast.LENGTH_SHORT).show();
+
+            return;
         }
 
-        mClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
+        HomeActivity.addContato(new Cliente(
+                nome,
+                telefone,
+                endereco,
+                email
+        ));
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-                try {
-                    final JSONObject jsonResponse = new JSONObject(response.body().string());
+        Toast.makeText(CadastroActivity.this, "Contato Cadastrado.", Toast.LENGTH_SHORT).show();
 
-                    System.out.println(jsonResponse);
-
-                    String status = jsonResponse.getString("status");
-                    final String msg = jsonResponse.getString("msg").toString();
-
-                    if (new String("success").equals(status)) {
-                        CadastroActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(CadastroActivity.this, msg, Toast.LENGTH_SHORT).show();
-
-                                finish();
-                            }
-                        });
-                    } else {
-                        CadastroActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(CadastroActivity.this, msg, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
+        finish();
     }
 }

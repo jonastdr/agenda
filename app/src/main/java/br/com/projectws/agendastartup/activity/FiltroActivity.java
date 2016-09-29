@@ -150,9 +150,7 @@ public class FiltroActivity extends Fragment {
 
                         for(int i = 0; i < contato.length(); i++) {
                             JSONObject cont = (JSONObject) contato.get(i);
-                            //JSONObject descricao = (JSONObject) cont.getJSONArray("perfil").get(0);
                             cliente = new Cliente(
-                                    cont.getString("id"),
                                     cont.getString("nome"),
                                     cont.getString("numero"),
                                     cont.getString("endereco"),
@@ -189,7 +187,6 @@ public class FiltroActivity extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     Cliente cliente = new Cliente(
-                            data.getStringExtra("id"),
                             data.getStringExtra("nome"),
                             data.getStringExtra("telefone"),
                             data.getStringExtra("endereco"),

@@ -45,11 +45,15 @@ public class HomeActivity extends Fragment {
     protected ClienteAdapter mAdapter;
     private Cliente cliente;
 
+    private static HomeActivity instance;
+
     public HomeActivity() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        instance = this;
     }
 
     @Override
@@ -100,13 +104,13 @@ public class HomeActivity extends Fragment {
         }));
 
 
-        if (clienteList.isEmpty()) {
+        /*if (clienteList.isEmpty()) {
         try {
             prepare();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        }
+        }*/
 
         return rootView;
     }
@@ -120,14 +124,6 @@ public class HomeActivity extends Fragment {
                     .url("http://192.168.0.15:8000/api/v1/contato/filter")
                 .post(requestBody)
                     .build();
-
-        cliente = new Cliente(
-                "1",
-                "Jonas",
-                "554299938277",
-                "Laudelino Gonçalves, 418",
-                "tortato.jonas@gmail"
-        );
 
         clienteList.add(cliente);
 
@@ -151,7 +147,6 @@ public class HomeActivity extends Fragment {
                             JSONObject cont = (JSONObject) contato.get(i);
 
                             cliente = new Cliente(
-                                    cont.getString("id"),
                                     cont.getString("nome"),
                                     cont.getString("numero"),
                                     cont.getString("endereco"),
@@ -183,13 +178,21 @@ public class HomeActivity extends Fragment {
         });
     }
 
+    public static void addContato(Cliente contato) {
+        instance.clienteList.add(contato);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CADASTRO) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
-                    Cliente cliente = new Cliente(data.getStringExtra("nome"),
-                            data.getStringExtra("telefone"), data.getStringExtra("interesses"));
+                    Cliente cliente = new Cliente(
+                            data.getStringExtra("nome"),
+                            data.getStringExtra("telefone"),
+                            data.getStringExtra("endereco"),
+                            data.getStringExtra("email")
+                    );
                     clienteList.add(cliente);
                     mAdapter.notifyDataSetChanged();
                 } catch (Exception e) {

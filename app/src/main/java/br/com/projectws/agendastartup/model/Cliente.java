@@ -3,34 +3,21 @@ package br.com.projectws.agendastartup.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by jonas on 14/05/16.
- */
 public class Cliente implements Parcelable {
     private String id, nome, telefone, endereco, email;
 
     public Cliente() {}
 
-    public Cliente(String id, String nome, String telefone) {
-        this.id = id;
+    public Cliente(String nome, String telefone) {
         this.nome = nome;
         this.telefone = telefone;
     }
 
-    public Cliente(String id, String nome, String telefone, String endereco, String email) {
-        this.id = id;
+    public Cliente(String nome, String telefone, String endereco, String email) {
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
         this.email = email;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getNome() {
