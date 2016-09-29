@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by jonas on 14/05/16.
  */
 public class Cliente implements Parcelable {
-    private String id, nome, telefone, tags;
+    private String id, nome, telefone, endereco, email;
 
     public Cliente() {}
 
@@ -17,11 +17,12 @@ public class Cliente implements Parcelable {
         this.telefone = telefone;
     }
 
-    public Cliente(String id, String nome, String telefone, String tags) {
+    public Cliente(String id, String nome, String telefone, String endereco, String email) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
-        this.tags = tags;
+        this.endereco = endereco;
+        this.email = email;
     }
 
     public String getId() {
@@ -48,26 +49,36 @@ public class Cliente implements Parcelable {
         this.telefone = telefone;
     }
 
-    public String getTags() {
-        return tags;
+    public String getEndereco() {
+        return endereco;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     Cliente(Parcel in) {
         this.id = in.readString();
         this.nome = in.readString();
         this.telefone = in.readString();
-        this.tags = in.readString();
+        this.endereco = in.readString();
+        this.email = in.readString();
     }
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(nome);
         dest.writeString(telefone);
-        dest.writeString(tags);
+        dest.writeString(endereco);
+        dest.writeString(email);
     }
 
     public int describeContents() {
@@ -82,7 +93,8 @@ public class Cliente implements Parcelable {
             Cliente.id = in.readString();
             Cliente.nome = in.readString();
             Cliente.telefone = in.readString();
-            Cliente.tags = in.readString();
+            Cliente.endereco = in.readString();
+            Cliente.email = in.readString();
             return Cliente;
         }
 

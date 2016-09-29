@@ -35,30 +35,26 @@
         android:layout_alignParentLeft="true"
         android:layout_marginTop="20dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Interesses"
-        android:id="@+id/preferenciaTextView"
-        android:textAlignment="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_below="@+id/telefoneEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/interreseEditText"
-        android:hint="Palavras chaves"
+        android:id="@+id/enderecoEditText"
+        android:hint="Endereço"
         style="@style/input"
-        android:layout_below="@+id/preferenciaTextView"
         android:layout_marginTop="20dp"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/telefoneEditText" />
+        android:layout_alignEnd="@+id/telefoneEditText"
+        android:layout_below="@+id/telefoneEditText" />
 
+
+    <EditText
+        style="@style/input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/emailEditText"
+        android:hint="Email"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -80,11 +76,12 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:text="CLIENTE"
+        android:text="CONTATO"
         android:textAlignment="center"
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

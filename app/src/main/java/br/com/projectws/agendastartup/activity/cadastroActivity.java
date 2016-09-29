@@ -26,8 +26,8 @@ import okhttp3.Response;
 public class CadastroActivity extends AppCompatActivity {
     private final OkHttpClient mClient = new OkHttpClient();
 
-    private String nome, telefone, interreses;
-    private EditText nomeEditText, telefoneEditText, interessesEditText;
+    private String nome, telefone, endereco, email;
+    private EditText nomeEditText, telefoneEditText, enderecoEditText, emailEditText;
     private Button salvarButton, cancelarButton;
     private Cliente cliente;
 
@@ -39,7 +39,8 @@ public class CadastroActivity extends AppCompatActivity {
         nomeEditText = (EditText) findViewById(R.id.nomeEditText);
         telefoneEditText = (EditText) findViewById(R.id.telefoneEditText);
         telefoneEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-        interessesEditText = (EditText) findViewById(R.id.interreseEditText);
+        enderecoEditText = (EditText) findViewById(R.id.enderecoEditText);
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
         salvarButton = (Button) findViewById(R.id.salvarButton);
         cancelarButton = (Button) findViewById(R.id.cancelarButton);
 
@@ -48,7 +49,8 @@ public class CadastroActivity extends AppCompatActivity {
         if(cliente != null) {
             nomeEditText.setText(cliente.getNome());
             telefoneEditText.setText(cliente.getTelefone().substring(2, cliente.getTelefone().length()));
-            interessesEditText.setText(cliente.getTags());
+            enderecoEditText.setText(cliente.getEndereco());
+            emailEditText.setText(cliente.getEmail());
         }
 
         cancelarButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +65,8 @@ public class CadastroActivity extends AppCompatActivity {
             public void onClick(View v) {
                 nome = nomeEditText.getText().toString();
                 telefone = telefoneEditText.getText().toString();
-                interreses = interessesEditText.getText().toString();
+                endereco = enderecoEditText.getText().toString();
+                email = emailEditText.getText().toString();
 
                 /*Intent intent = new Intent();
                 intent.putExtra("nome", nome);
@@ -80,10 +83,8 @@ public class CadastroActivity extends AppCompatActivity {
         RequestBody requestBody = new FormBody.Builder()
                 .add("nome", nomeEditText.getText().toString())
                 .add("numero", "55" + telefoneEditText.getText().toString())
-                .add("telefone", "0")
-                .add("whatsapp", "0")
-                .add("perfil", interessesEditText.getText().toString())
-                .add("id_usuario", "1")
+                .add("endereco", enderecoEditText.getText().toString())
+                .add("email", emailEditText.getText().toString())
                 .build();
 
         Request request;

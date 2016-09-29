@@ -11,21 +11,18 @@ import java.util.List;
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.model.Cliente;
 
-/**
- * Created by guilhermino on 5/14/16.
- */
 public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.MyViewHolder> {
 
     private List<Cliente> clientesList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nome, telefone, tags;
+        public TextView nome, telefone, endereco;
 
         public MyViewHolder(View view) {
             super(view);
             nome = (TextView) view.findViewById(R.id.nome);
             telefone = (TextView) view.findViewById(R.id.data);
-            tags = (TextView) view.findViewById(R.id.tags);
+            endereco = (TextView) view.findViewById(R.id.endereco);
         }
     }
 
@@ -46,7 +43,7 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Cliente cliente = clientesList.get(position);
         holder.nome.setText(cliente.getNome());
-        holder.tags.setText(cliente.getTags());
+        holder.endereco.setText(cliente.getEndereco());
     }
 
     @Override

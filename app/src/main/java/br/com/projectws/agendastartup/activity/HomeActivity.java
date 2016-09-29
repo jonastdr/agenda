@@ -121,6 +121,16 @@ public class HomeActivity extends Fragment {
                 .post(requestBody)
                     .build();
 
+        cliente = new Cliente(
+                "1",
+                "Jonas",
+                "554299938277",
+                "Laudelino Gonçalves, 418",
+                "tortato.jonas@gmail"
+        );
+
+        clienteList.add(cliente);
+
         mClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -139,14 +149,13 @@ public class HomeActivity extends Fragment {
 
                         for(int i = 0; i < contato.length(); i++) {
                             JSONObject cont = (JSONObject) contato.get(i);
-                            System.out.println(cont);
-                            JSONArray descricao = (JSONArray) cont.getJSONArray("perfil").get(0);
-                            System.out.println(descricao);
+
                             cliente = new Cliente(
                                     cont.getString("id"),
                                     cont.getString("nome"),
                                     cont.getString("numero"),
-                                    descricao.toString()
+                                    cont.getString("endereco"),
+                                    cont.getString("email")
                             );
                             clienteList.add(cliente);
                         }
