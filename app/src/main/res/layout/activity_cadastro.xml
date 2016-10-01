@@ -25,7 +25,6 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="phone"
         android:ems="10"
         android:id="@+id/telefoneEditText"
         android:hint="Telefone"
@@ -33,10 +32,11 @@
         android:layout_alignParentStart="false"
         android:layout_below="@+id/nomeEditText"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:inputType="phone" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/enderecoEditText"
         android:hint="Endereço"
@@ -44,7 +44,8 @@
         android:layout_marginTop="20dp"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/telefoneEditText"
-        android:layout_below="@+id/telefoneEditText" />
+        android:layout_below="@+id/telefoneEditText"
+        android:inputType="text" />
 
 
     <EditText
@@ -54,7 +55,9 @@
         android:id="@+id/emailEditText"
         android:hint="Email"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:inputType="textEmailAddress" />
 
     <Button
         android:layout_width="wrap_content"
@@ -89,10 +92,10 @@
         android:layout_height="wrap_content"
         android:text="Excluir"
         android:id="@+id/excluirButton"
-        android:layout_above="@+id/cancelarButton"
-        android:layout_alignParentStart="true"
+        android:layout_below="@+id/emailEditText"
+        android:layout_alignEnd="@+id/salvarButton"
         style="@style/cancel_button"
-        android:enabled="false"
+        android:layout_marginTop="15dp"
         android:visibility="invisible" />
 
 </RelativeLayout>

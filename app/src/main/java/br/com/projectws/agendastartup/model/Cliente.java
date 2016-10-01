@@ -4,20 +4,25 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Cliente implements Parcelable {
-    private String id, nome, telefone, endereco, email;
+    private int id;
+    private String nome, telefone, endereco, email;
 
     public Cliente() {}
 
-    public Cliente(String nome, String telefone) {
-        this.nome = nome;
-        this.telefone = telefone;
-    }
-
-    public Cliente(String nome, String telefone, String endereco, String email) {
+    public Cliente(int id, String nome, String telefone, String endereco, String email) {
+        this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -53,7 +58,7 @@ public class Cliente implements Parcelable {
     }
 
     Cliente(Parcel in) {
-        this.id = in.readString();
+        this.id = in.readInt();
         this.nome = in.readString();
         this.telefone = in.readString();
         this.endereco = in.readString();
@@ -61,7 +66,7 @@ public class Cliente implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeInt(id);
         dest.writeString(nome);
         dest.writeString(telefone);
         dest.writeString(endereco);
@@ -77,7 +82,7 @@ public class Cliente implements Parcelable {
 
         public Cliente createFromParcel(Parcel in) {
             Cliente Cliente = new Cliente();
-            Cliente.id = in.readString();
+            Cliente.id = in.readInt();
             Cliente.nome = in.readString();
             Cliente.telefone = in.readString();
             Cliente.endereco = in.readString();

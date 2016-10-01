@@ -12,24 +12,29 @@
                 android:orientation="vertical">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
         android:id="@+id/nome"
-        android:textSize="20sp"
         android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/endereco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/telefone"
         android:layout_below="@+id/nome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/data"
-        android:text="15/05/2016"
-        android:textSize="14sp"
-        android:layout_width="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_height="wrap_content" />
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/endereco"
+        android:layout_below="@+id/telefone"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

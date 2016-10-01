@@ -1,6 +1,5 @@
 package br.com.projectws.agendastartup.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,44 +7,34 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.adapter.ClienteAdapter;
 import br.com.projectws.agendastartup.model.Cliente;
 import br.com.projectws.agendastartup.utils.DividerItemDecoration;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class HomeActivity extends Fragment {
-    private final OkHttpClient mClient = new OkHttpClient();
-    protected static final int REQUEST_CADASTRO = 200;
     protected Button cadastrar;
     protected List<Cliente> clienteList = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected ClienteAdapter mAdapter;
-    private Cliente cliente;
 
     private static HomeActivity instance;
+
+    private int iCliente = 0;
 
     public HomeActivity() {}
 
@@ -69,7 +58,7 @@ public class HomeActivity extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CadastroActivity.class);
-                startActivityForResult(intent, REQUEST_CADASTRO);
+                startActivity(intent);
             }
         });
 
@@ -103,105 +92,60 @@ public class HomeActivity extends Fragment {
             }
         }));
 
-
-        /*if (clienteList.isEmpty()) {
-        try {
-            prepare();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        }*/
-
         return rootView;
     }
 
-    private void prepare() throws Exception {
+    /**
+     * adiciona contato
+     * @param cliente
+     */
+    public static void addContato(Cliente cliente) {
+        cliente.setId(instance.iCliente++);
 
-        RequestBody requestBody = new FormBody.Builder()
-                .build();
+        instance.clienteList.add(cliente);
 
-        Request request = new Request.Builder()
-                    .url("http://192.168.0.15:8000/api/v1/contato/filter")
-                .post(requestBody)
-                    .build();
+        Collections.sort(instance.clienteList, new Comparator() {
+            public int compare(Object synchronizedListOne, Object synchronizedListTwo) {
 
-        clienteList.add(cliente);
-
-        mClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Erro de Conexão" + response);
-                try {
-                    JSONObject jsonResponse = new JSONObject(response.body().string());
-
-                    String status = jsonResponse.getString("status");
-                    if (new String("success").equals(status)) {
-                        JSONArray contato = jsonResponse.getJSONObject("options").getJSONArray("contato");
-
-                        for(int i = 0; i < contato.length(); i++) {
-                            JSONObject cont = (JSONObject) contato.get(i);
-
-                            cliente = new Cliente(
-                                    cont.getString("nome"),
-                                    cont.getString("numero"),
-                                    cont.getString("endereco"),
-                                    cont.getString("email")
-                            );
-                            clienteList.add(cliente);
-                        }
-
-                    } else {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getContext(), "Erro de Conexão", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    });
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                return ((Cliente) synchronizedListOne).getNome()
+                        .compareTo(((Cliente) synchronizedListTwo).getNome());
             }
         });
+
+        instance.mAdapter.notifyDataSetChanged();
     }
 
-    public static void addContato(Cliente contato) {
-        instance.clienteList.add(contato);
+    /**
+     * remove contato
+     * @param cliente
+     */
+    public static void removeCliente(Cliente cliente) {
+        instance.clienteList.remove(cliente.getId());
+
+        instance.mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * atualiza contato
+     * @param cliente
+     */
+    public static void updCliente(Cliente cliente) {
+        instance.clienteList.set(cliente.getId(), cliente);
+
+        instance.mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Retorna a lista de contatos / clientes
+     * @return
+     */
+    public static List<Cliente> getList() {
+        return instance.clienteList;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CADASTRO) {
-            if (resultCode == Activity.RESULT_OK) {
-                try {
-                    Cliente cliente = new Cliente(
-                            data.getStringExtra("nome"),
-                            data.getStringExtra("telefone"),
-                            data.getStringExtra("endereco"),
-                            data.getStringExtra("email")
-                    );
-                    clienteList.add(cliente);
-                    mAdapter.notifyDataSetChanged();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-
+        mAdapter.notifyDataSetChanged();
     }
 
     public interface ClickListener {
@@ -210,6 +154,9 @@ public class HomeActivity extends Fragment {
         void onLongClick(View view, int position);
     }
 
+    /**
+     * Lista de clientes / Contato
+     */
     public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         private GestureDetector gestureDetector;

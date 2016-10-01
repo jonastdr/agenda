@@ -45,24 +45,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Telefonar"
-        android:id="@+id/telefonarBtn"
+        android:id="@+id/telefonarButton"
         android:background="@drawable/button_submit"
         android:textColor="@android:color/white"
         style="@style/submit_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/enviarBtn"
+        android:layout_toStartOf="@+id/enviarButton"
         android:layout_marginRight="5dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enviar Mensagem"
-        android:id="@+id/enviarBtn"
+        android:text="Enviar Email"
+        android:id="@+id/enviarButton"
         android:background="@drawable/button_submit"
         android:textColor="@android:color/white"
         style="@style/submit_button"
-        android:layout_alignTop="@+id/telefonarBtn"
+        android:layout_alignTop="@+id/telefonarButton"
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="5dp" />
 
@@ -73,5 +73,35 @@
         android:src="@drawable/ic_icon_icon"
         android:layout_above="@+id/nomeTextView"
         android:layout_toEndOf="@+id/imageView"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Excluir"
+        android:id="@+id/excluirButton"
+        android:layout_above="@+id/enviarButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="44dp"
+        style="@style/cancel_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="ENDERECO"
+        android:id="@+id/enderecoTextView"
+        android:layout_below="@+id/telefoneTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="EMAIL"
+        android:id="@+id/emailTextView"
+        android:layout_below="@+id/enderecoTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 
 </RelativeLayout>

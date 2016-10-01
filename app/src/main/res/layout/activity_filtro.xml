@@ -7,20 +7,32 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="br.com.projectws.agendastartup.activity.FiltroActivity">
 
-    <SearchView
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/searchView"
+        android:id="@+id/pesquisaEditText"
         android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:hint="O que procura?"
+        style="@style/input"
+        android:layout_margin="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pesquisar"
+        android:id="@+id/filtrarButton"
+        android:layout_below="@+id/pesquisaEditText"
         android:layout_centerHorizontal="true"
-        style="@style/search"/>
+        style="@style/submit_button" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:layout_below="@+id/searchView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_below="@+id/filtrarButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
 </RelativeLayout>

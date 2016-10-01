@@ -9,45 +9,33 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SearchView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.adapter.ClienteAdapter;
 import br.com.projectws.agendastartup.model.Cliente;
 import br.com.projectws.agendastartup.utils.DividerItemDecoration;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class FiltroActivity extends Fragment {
-    private final OkHttpClient mClient = new OkHttpClient();
-
-    private Cliente cliente;
-
-    protected static final int REQUEST_CADASTRO = 200;
     protected List<Cliente> clienteList = new ArrayList<>();
     protected RecyclerView recyclerView;
     protected ClienteAdapter mAdapter;
 
-    SearchView searchView;
+    EditText pesquisaEditText;
+    Button filtrarButton;
 
     public FiltroActivity() {}
 
@@ -82,7 +70,7 @@ public class FiltroActivity extends Fragment {
                     Bundle mbundle = new Bundle();
                     mbundle.putParcelable("cliente", cliente);
                     intent.putExtras(mbundle);
-                    startActivity(intent);
+                    startActivityForResult(intent, 200);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -94,115 +82,49 @@ public class FiltroActivity extends Fragment {
             }
         }));
 
-        searchView = (SearchView) rootView.findViewById(R.id.searchView);
+        pesquisaEditText = (EditText)rootView.findViewById(R.id.pesquisaEditText);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        filtrarButton = (Button) rootView.findViewById(R.id.filtrarButton);
+        filtrarButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                try {
-                    prepareCliente(s);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-
-                return false;
+            public void onClick(View v) {
+                filtrar();
             }
         });
 
         return rootView;
     }
 
-    private void prepareCliente(String filtro) {
-        RequestBody requestBody = new FormBody.Builder()
-                .add("pesquisar", filtro)
-                .build();
-
-        Request request = new Request.Builder()
-                .url("http://192.168.0.15:8000/api/v1/contato/filter")
-                .post(requestBody)
-                .build();
-
-        mClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Erro de Conexão" + response);
-                try {
-                    JSONObject jsonResponse = new JSONObject(response.body().string());
-
-                    System.out.println(jsonResponse);
-
-                    String status = jsonResponse.getString("status");
-                    if (new String("success").equals(status)) {
-                        clienteList.clear();
-
-                        JSONArray contato = jsonResponse.getJSONObject("options").getJSONArray("contato");
-
-                        for(int i = 0; i < contato.length(); i++) {
-                            JSONObject cont = (JSONObject) contato.get(i);
-                            cliente = new Cliente(
-                                    cont.getString("nome"),
-                                    cont.getString("numero"),
-                                    cont.getString("endereco"),
-                                    cont.getString("email")
-                            );
-                            clienteList.add(cliente);
-                        }
-                    } else {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getContext(), "Erro de Conexão", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    });
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CADASTRO) {
-            if (resultCode == Activity.RESULT_OK) {
-                try {
-                    Cliente cliente = new Cliente(
-                            data.getStringExtra("nome"),
-                            data.getStringExtra("telefone"),
-                            data.getStringExtra("endereco"),
-                            data.getStringExtra("email")
-                    );
-                    clienteList.add(cliente);
-                    mAdapter.notifyDataSetChanged();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-
+        filtrar();
     }
 
+    private void filtrar() {
+        List<Cliente> clientes = HomeActivity.getList();
+
+        clienteList.clear();
+
+        for(Cliente cliente: clientes) {
+            if(
+                cliente.getNome().contains(pesquisaEditText.getText().toString()) ||
+                cliente.getTelefone().contains(pesquisaEditText.getText().toString()) ||
+                cliente.getEndereco().contains(pesquisaEditText.getText().toString())
+            ) {
+                clienteList.add(cliente);
+            }
+        }
+
+        Collections.sort(clienteList, new Comparator() {
+            public int compare(Object synchronizedListOne, Object synchronizedListTwo) {
+
+                return ((Cliente) synchronizedListOne).getNome()
+                        .compareTo(((Cliente) synchronizedListTwo).getNome());
+            }
+        });
+
+        mAdapter.notifyDataSetChanged();
+    }
 
     public interface ClickListener {
         void onClick(View view, int position);
@@ -210,6 +132,9 @@ public class FiltroActivity extends Fragment {
         void onLongClick(View view, int position);
     }
 
+    /**
+     * Lista de clientes / contatos
+     */
     public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         private GestureDetector gestureDetector;

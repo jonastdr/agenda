@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new HomeActivity(), "CONTATOS");
         adapter.addFragment(new FiltroActivity(), "FILTROS");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+
+        return super.onOptionsItemSelected(item);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

@@ -8,28 +8,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.model.Cliente;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class CadastroActivity extends AppCompatActivity {
-    private final OkHttpClient mClient = new OkHttpClient();
-
     private String nome, telefone, endereco, email;
     private EditText nomeEditText, telefoneEditText, enderecoEditText, emailEditText;
     private Button salvarButton, cancelarButton, excluirButton;
     private Cliente cliente;
+
+    private Boolean update = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +36,13 @@ public class CadastroActivity extends AppCompatActivity {
 
         cliente = getIntent().getParcelableExtra("cliente");
 
-        if(cliente != null) {
+        if (cliente != null) {
+            update = true;
+
             excluirButton.setVisibility(View.VISIBLE);
 
             nomeEditText.setText(cliente.getNome());
-            telefoneEditText.setText(cliente.getTelefone().substring(2, cliente.getTelefone().length()));
+            telefoneEditText.setText(cliente.getTelefone());
             enderecoEditText.setText(cliente.getEndereco());
             emailEditText.setText(cliente.getEmail());
         }
@@ -74,6 +65,7 @@ public class CadastroActivity extends AppCompatActivity {
                 send();
             }
         });
+
     }
 
     private void send() {
@@ -98,14 +90,28 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
-        HomeActivity.addContato(new Cliente(
-                nome,
-                telefone,
-                endereco,
-                email
-        ));
+        if(update) {
+            cliente.setNome(nome);
+            cliente.setTelefone(telefone);
+            cliente.setEndereco(endereco);
+            cliente.setEmail(email);
 
-        Toast.makeText(CadastroActivity.this, "Contato Cadastrado.", Toast.LENGTH_SHORT).show();
+            HomeActivity.updCliente(cliente);
+
+            ClienteActivity.updCliente(cliente);
+
+            Toast.makeText(CadastroActivity.this, "Contato Atualizado.", Toast.LENGTH_SHORT).show();
+        } else {
+            HomeActivity.addContato(new Cliente(
+                    0,
+                    nome,
+                    telefone,
+                    endereco,
+                    email
+            ));
+
+            Toast.makeText(CadastroActivity.this, "Contato Cadastrado.", Toast.LENGTH_SHORT).show();
+        }
 
         finish();
     }

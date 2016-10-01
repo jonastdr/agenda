@@ -1,86 +1,46 @@
 package br.com.projectws.agendastartup.activity;
 
-import android.annotation.TargetApi;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.List;
-
 import br.com.projectws.agendastartup.R;
 import br.com.projectws.agendastartup.model.Cliente;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class ClienteActivity extends AppCompatActivity {
-    private final OkHttpClient mClient = new OkHttpClient();
-    private String[] array = {"mensagem1", "mensagem2"};
-    TextView nome, telefone;
-    private AlertDialog alert;
+    TextView nome, telefone, email, endereco;
 
     private ImageButton alterarButton;
 
+    private Button excluirButton, enviarButton, telefonarButton;
+
     Cliente cliente;
+    private static ClienteActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        instance = this;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cliente);
 
         nome = (TextView) findViewById(R.id.nomeTextView);
         telefone = (TextView) findViewById(R.id.telefoneTextView);
+        email = (TextView) findViewById(R.id.emailTextView);
+        endereco = (TextView) findViewById(R.id.enderecoTextView);
 
         setView();
 
-        Button enviarBtn = (Button) findViewById(R.id.enviarBtn);
-
-        assert enviarBtn != null;
-        enviarBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-
-                    Uri uri = Uri.parse("smsto:" + "+" + cliente.getTelefone());
-
-                    Intent i = new Intent(Intent.ACTION_SENDTO, uri);
-
-                    Bundle bundle = i.getExtras();
-
-                    System.out.println(bundle);
-
-                    //sendWhatsIntent();
-                    //Dialog();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
         alterarButton = (ImageButton) findViewById(R.id.alterarButton);
+        excluirButton = (Button) findViewById(R.id.excluirButton);
+        telefonarButton = (Button) findViewById(R.id.telefonarButton);
+        enviarButton = (Button) findViewById(R.id.enviarButton);
 
         alterarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,32 +49,90 @@ public class ClienteActivity extends AppCompatActivity {
                 Bundle mbundle = new Bundle();
                 mbundle.putParcelable("cliente", cliente);
                 intent.putExtras(mbundle);
-                startActivity(intent);
+                startActivityForResult(intent, 200);
             }
         });
-    }
 
-    public void Dialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Escolha uma mensagem!");
-        builder.setItems(array, new DialogInterface.OnClickListener() {
+        excluirButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
+            public void onClick(View view) {
+                excluir();
             }
         });
-        alert = builder.create();
-        alert.show();
+
+        telefonarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                telefonar();
+            }
+        });
+
+        enviarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                email();
+            }
+        });
 
     }
 
+    private void excluir() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(ClienteActivity.this);
 
-    @TargetApi(Build.VERSION_CODES.M)
+        dialog.setTitle("Exclusão");
+        dialog.setMessage("Tem certeza que deseja excluir este contato?");
+
+        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                HomeActivity.removeCliente(cliente);
+
+                finish();
+            }
+        });
+
+        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void email() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/html");
+        intent.putExtra(Intent.EXTRA_EMAIL, cliente.getEmail());
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+        intent.putExtra(Intent.EXTRA_TEXT, "Meu Email");
+
+        startActivity(Intent.createChooser(intent, "Send Email"));
+    }
+
+    private void telefonar() {
+        Uri uri = Uri.parse("tel:" + cliente.getTelefone());
+        Intent intent = new Intent(Intent.ACTION_DIAL,uri);
+
+        startActivity(intent);
+    }
+
+    public static void updCliente(Cliente cliente) {
+        instance.cliente = cliente;
+
+        instance.nome.setText(cliente.getNome());
+        instance.telefone.setText(cliente.getTelefone());
+        instance.endereco.setText(cliente.getEndereco());
+        instance.email.setText(cliente.getEmail());
+    }
+
     private void setView() {
         cliente = getIntent().getParcelableExtra("cliente");
 
         nome.setText(cliente.getNome());
-        telefone.setText(cliente.getTelefone().substring(2, cliente.getTelefone().length()));
-        telefone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        telefone.setText(cliente.getTelefone());
+        endereco.setText(cliente.getEndereco());
+        email.setText(cliente.getEmail());
     }
 }
